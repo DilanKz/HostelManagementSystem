@@ -16,7 +16,8 @@ public class Appinitializer extends Application {
             Scene scene = new Scene(window);
             primaryStage.setScene(scene);
             primaryStage.setTitle("Login Form");
+            primaryStage.setFullScreenExitHint("");
+            primaryStage.setFullScreen(true);
             primaryStage.show();
-
         }
 }
