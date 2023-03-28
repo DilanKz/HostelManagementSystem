@@ -5,23 +5,23 @@ import lk.ijse.hostelManagement.entity.Student;
 
 import java.sql.Date;
 
-public class Reservation {
+public class ReservationDTO {
     private String resID;
     private Date date;
     private Student student;
     private Room room;
     private String status;
 
-    public Reservation() {
+    public ReservationDTO() {
     }
 
-    public Reservation(String resID, Date date, String status) {
+    public ReservationDTO(String resID, Date date, String status) {
         this.resID = resID;
         this.date = date;
         this.status = status;
     }
 
-    public Reservation(String resID, Date date, Student student, Room room, String status) {
+    public ReservationDTO(String resID, Date date, Student student, Room room, String status) {
         this.resID = resID;
         this.date = date;
         this.student = student;

@@ -23,6 +23,16 @@ public class Reservation {
     @Column(name = "status")
     private String status;
 
+    public Reservation() {
+    }
+
+    public Reservation(String resID, Date date, Student student, Room room, String status) {
+        this.resID = resID;
+        this.date = date;
+        this.student = student;
+        this.room = room;
+        this.status = status;
+    }
 
     public String getResID() {
         return resID;

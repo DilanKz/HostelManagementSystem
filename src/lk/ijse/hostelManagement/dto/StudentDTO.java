@@ -1,7 +1,7 @@
 package lk.ijse.hostelManagement.dto;
 
 
-public class Student {
+public class StudentDTO {
     private String id;
     private String name;
     private String address;
@@ -9,10 +9,10 @@ public class Student {
     private String dob;
     private String gender;
 
-    public Student() {
+    public StudentDTO() {
     }
 
-    public Student(String id, String name, String address, String contactNo, String dob, String gender) {
+    public StudentDTO(String id, String name, String address, String contactNo, String dob, String gender) {
         this.id = id;
         this.name = name;
         this.address = address;

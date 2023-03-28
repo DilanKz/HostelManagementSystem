@@ -5,5 +5,5 @@ import lk.ijse.hostelManagement.entity.Student;
 import org.hibernate.Session;
 
 public interface StudentDAO extends CrudDAO<Student> {
-    void setSession() throws Exception;
+    void setSession(Session session) throws Exception;
 }

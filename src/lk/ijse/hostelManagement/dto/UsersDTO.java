@@ -1,7 +1,7 @@
 package lk.ijse.hostelManagement.dto;
 
 
-public class Users {
+public class UsersDTO {
     private String id;
     private String userName;
     private String password;
@@ -9,10 +9,10 @@ public class Users {
     private String type;
     private boolean isEnabled;
 
-    public Users() {
+    public UsersDTO() {
     }
 
-    public Users(String id, String userName, String password, String contact, String type, boolean isEnabled) {
+    public UsersDTO(String id, String userName, String password, String contact, String type, boolean isEnabled) {
         this.id = id;
         this.userName = userName;
         this.password = password;

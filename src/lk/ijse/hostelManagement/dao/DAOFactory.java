@@ -23,7 +23,7 @@ public class DAOFactory {
     }
 
 
-    public static SuperDAO getDAO(DAOTypes daoTypes){
+    public  SuperDAO getDAO(DAOTypes daoTypes){
         switch (daoTypes){
             case Student :
                 return new StudentDAOImpl();

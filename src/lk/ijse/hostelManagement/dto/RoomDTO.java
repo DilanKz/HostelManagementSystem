@@ -1,19 +1,15 @@
 package lk.ijse.hostelManagement.dto;
 
-import lk.ijse.hostelManagement.entity.Reservation;
-
-import java.util.List;
-
-public class Room {
+public class RoomDTO {
     private String id;
     private String type;
     private String keyMoney;
     private int qty;
 
-    public Room() {
+    public RoomDTO() {
     }
 
-    public Room(String id, String type, String keyMoney, int qty) {
+    public RoomDTO(String id, String type, String keyMoney, int qty) {
         this.id = id;
         this.type = type;
         this.keyMoney = keyMoney;

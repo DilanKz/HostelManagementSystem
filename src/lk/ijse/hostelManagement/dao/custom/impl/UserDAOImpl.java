@@ -62,7 +62,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public void setSession() throws Exception {
-        session= SessionFactoryConfiguration.getInstance().getSession();
+    public void setSession(Session session) throws Exception {
+        this.session=session;
     }
 }
