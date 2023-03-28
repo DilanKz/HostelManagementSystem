@@ -54,7 +54,7 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <JFXCheckBox fx:id="cbxStatus" layoutX="199.0" layoutY="300.0" text="Paid" textFill="#057dcd">
+      <JFXCheckBox fx:id="cbxStatus" disable="true" layoutX="199.0" layoutY="300.0" text="Paid" textFill="#057dcd">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>

@@ -6,10 +6,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: C4DDFF;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.hostelManagement.controller.MainFormController">
    <children>
-      <AnchorPane fx:id="scenePane" layoutX="234.0" layoutY="217.0" prefHeight="816.0" prefWidth="1686.0" style="-fx-background-color: C4DDFF;" />
+      <AnchorPane fx:id="scenePane" layoutX="189.0" layoutY="217.0" prefHeight="816.0" prefWidth="1686.0" style="-fx-background-color: C4DDFF;" />
       <AnchorPane layoutY="133.0" prefHeight="84.0" prefWidth="1920.0" style="-fx-background-color: #057DCD;">
          <children>
             <Label fx:id="lblFormName" layoutX="14.0" layoutY="14.0" prefHeight="32.0" prefWidth="195.0" textFill="WHITE">
@@ -40,7 +39,7 @@
          </children>
       </AnchorPane>
       <AnchorPane layoutY="1033.0" prefHeight="47.0" prefWidth="1920.0" style="-fx-background-color: #057DCD;" />
-      <VBox layoutY="217.0" prefHeight="816.0" prefWidth="235.0" style="-fx-background-color: #057DCD;">
+      <VBox layoutY="217.0" prefHeight="816.0" prefWidth="110.0" style="-fx-background-color: #057DCD;">
          <children>
             <JFXButton fx:id="btnStudent" onAction="#btnStudentOnAction" prefHeight="80.0" prefWidth="235.0" text="Manage Student" textFill="WHITE">
                <font>

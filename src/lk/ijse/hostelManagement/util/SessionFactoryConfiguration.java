@@ -3,6 +3,7 @@ package lk.ijse.hostelManagement.util;
 import lk.ijse.hostelManagement.entity.Reservation;
 import lk.ijse.hostelManagement.entity.Room;
 import lk.ijse.hostelManagement.entity.Student;
+import lk.ijse.hostelManagement.entity.Users;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -19,6 +20,7 @@ public class SessionFactoryConfiguration {
                 .addAnnotatedClass(Reservation.class)
                 .addAnnotatedClass(Student.class)
                 .addAnnotatedClass(Room.class)
+                .addAnnotatedClass(Users.class)
                 .buildSessionFactory();
     }
 
