@@ -19,7 +19,7 @@ public class Navigation {
         Navigation.anchorPane.getChildren().clear();
         stage = (Stage) Navigation.anchorPane.getScene().getWindow();
         stage.setFullScreen(true);
-        stage.setFullScreenExitHint(" ");
+        stage.setFullScreenExitHint("");
 
         switch (route){
             case Login :
