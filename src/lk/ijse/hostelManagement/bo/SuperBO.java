@@ -1,4 +1,4 @@
 package lk.ijse.hostelManagement.bo;
 
-public interface SuperService {
+public interface SuperBO {
 }

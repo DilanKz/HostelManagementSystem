@@ -22,6 +22,7 @@ public class DAOFactory {
         Student,Rooms,Reservation,Users
     }
 
+
     public static SuperDAO getDAO(DAOTypes daoTypes){
         switch (daoTypes){
             case Student :
@@ -36,4 +37,6 @@ public class DAOFactory {
                 return null;
         }
     }
+
+
 }

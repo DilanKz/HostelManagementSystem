@@ -1,4 +1,6 @@
 package lk.ijse.hostelManagement.bo.custom.impl;
 
-public class RoomsBOImpl {
+import lk.ijse.hostelManagement.bo.custom.RoomsBO;
+
+public class RoomsBOImpl implements RoomsBO {
 }
