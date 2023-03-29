@@ -25,7 +25,8 @@ public class ReservationDAOImpl implements ReservationDAO {
     }
 
     @Override
-    public String save(Reservation reservation)  {
+    public String save(Reservation reservation) {
+        System.out.println(reservation);
         return (String) session.save(reservation);
     }
 

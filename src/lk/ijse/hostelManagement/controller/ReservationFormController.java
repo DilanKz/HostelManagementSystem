@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -11,10 +12,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import lk.ijse.hostelManagement.bo.BOFactory;
 import lk.ijse.hostelManagement.bo.custom.ReservationBO;
@@ -93,15 +91,13 @@ public class ReservationFormController {
     @FXML
     private TableColumn<ReservationDTO, String> colStatus;
     private ReservationBO reservationBO= (ReservationBO) BOFactory.getInstance().getBO(BOFactory.BOTypes.Reservation);
-    private StudentDTO studentData;
-    private RoomDTO roomData;
-
     @FXML
     void btnAddNewReservationOnAction(ActionEvent event) throws Exception {
         btnNewRes.setDisable(true);
         setReserveID();
         setFieldStatus(false);
         setIds();
+
     }
 
     @FXML
@@ -109,7 +105,18 @@ public class ReservationFormController {
     }
 
     @FXML
-    void btnReserveOnAction(ActionEvent event) {
+    void btnReserveOnAction(ActionEvent event) throws Exception {
+        boolean isSaved = reservationBO.saveReservation(getData());
+        if (isSaved){
+            new Alert(Alert.AlertType.CONFIRMATION, "Room Reserved").show();
+            /*tblResDetails.getItems().clear();
+            loadAll();*/
+            //clearFields();
+        }else{
+            new Alert(Alert.AlertType.ERROR, "Error").show();
+        }
+
+        //System.out.println(getData());
     }
 
     public void btnCancelOnAction(ActionEvent actionEvent) {
@@ -119,8 +126,9 @@ public class ReservationFormController {
     }
 
     @FXML
-    void initialize() {
+    void initialize() throws Exception{
         setCellFactory();
+        //loadAll();
     }
 
     private void setCellFactory(){
@@ -129,6 +137,13 @@ public class ReservationFormController {
         colStudent.setCellValueFactory(new PropertyValueFactory<>("studentID"));
         colRoomTID.setCellValueFactory(new PropertyValueFactory<>("roomID"));
         colStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
+    }
+
+    private void loadAll() throws Exception {
+        List<ReservationDTO> reservationDTOS = reservationBO.loadAll();
+        ObservableList<ReservationDTO> dtoObservableList=FXCollections.observableList(reservationDTOS);
+
+        tblResDetails.setItems(dtoObservableList);
     }
 
     private void setReserveID() throws Exception {
@@ -164,12 +179,12 @@ public class ReservationFormController {
         return reservationBO.getRoom(roomID);
     }
     public void cmbStudentOnAction(ActionEvent actionEvent) throws Exception {
-        studentData = getStudentData();
+        StudentDTO studentData= getStudentData();
         lblStudentName.setText(studentData.getName());
     }
 
     public void cmbRoomOnAction(ActionEvent actionEvent) throws Exception {
-        roomData = getRoomData();
+        RoomDTO roomData = getRoomData();
         lblRoomQty.setText(String.valueOf(roomData.getQty()));
     }
 
@@ -181,15 +196,24 @@ public class ReservationFormController {
         cmbGender1.getSelectionModel().clearSelection();*/
     }
 
-    private ReservationDTO getData(){
+    private ReservationDTO getData() throws Exception {
 
         String status="unPaid";
         if (cbxStatus.isSelected()){
             status="paid";
         }
 
-        String date= String.valueOf(LocalDate.now());
+        java.sql.Date sqlDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
 
-        return new ReservationDTO();
+        StudentDTO studentData= getStudentData();
+        RoomDTO roomData=getRoomData();
+
+        return new ReservationDTO(
+                lblResId.getText(),
+                sqlDate,
+                studentData,
+                roomData,
+                status
+        );
     }
 }

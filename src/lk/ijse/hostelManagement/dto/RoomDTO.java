@@ -1,10 +1,13 @@
 package lk.ijse.hostelManagement.dto;
 
+
 public class RoomDTO {
     private String id;
     private String type;
     private String keyMoney;
     private int qty;
+
+    //private List<ReservationDTO> reservationList;
 
     public RoomDTO() {
     }
@@ -46,5 +49,15 @@ public class RoomDTO {
 
     public void setQty(int qty) {
         this.qty = qty;
+    }
+
+    @Override
+    public String toString() {
+        return "RoomDTO{" +
+                "id='" + id + '\'' +
+                ", type='" + type + '\'' +
+                ", keyMoney='" + keyMoney + '\'' +
+                ", qty=" + qty +
+                '}';
     }
 }

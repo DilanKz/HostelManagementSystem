@@ -95,6 +95,7 @@ public class ReservationBOImpl implements ReservationBO {
             );
             transaction.commit();
             session.close();
+            return true;
         }catch (Exception e){
             transaction.rollback();
         }
@@ -132,6 +133,7 @@ public class ReservationBOImpl implements ReservationBO {
             );
             transaction.commit();
             session.close();
+            return true;
         }catch (Exception e){
             transaction.rollback();
         }
@@ -211,6 +213,7 @@ public class ReservationBOImpl implements ReservationBO {
             );
             transaction.commit();
             session.close();
+            return true;
         }catch (Exception e){
             session.close();
             transaction.rollback();
