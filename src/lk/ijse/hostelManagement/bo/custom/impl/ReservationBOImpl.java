@@ -29,37 +29,67 @@ public class ReservationBOImpl implements ReservationBO {
         session= SessionFactoryConfiguration.getInstance().getSession();
         reservationDAO.setSession(session);
 
-        List<Reservation> reservations = reservationDAO.loadAll();
-        List<ReservationDTO> reservationDTOS=new ArrayList<>();
+        try {
+            List<Reservation> reservations = reservationDAO.loadAll();
+            List<ReservationDTO> reservationDTOS=new ArrayList<>();
 
-        for (Reservation reservation:reservations) {
-            reservationDTOS.add(
-                    new ReservationDTO(
-                        reservation.getResID(),
-                        reservation.getDate(),
-                        reservation.getStudent(),
-                        reservation.getRoom(),
-                        reservation.getStatus()
-                    )
-            );
+            for (Reservation reservation:reservations) {
+                reservationDTOS.add(
+                        new ReservationDTO(
+                                reservation.getResID(),
+                                reservation.getDate(),
+                                new StudentDTO(
+                                        reservation.getStudent().getId(),
+                                        reservation.getStudent().getName(),
+                                        reservation.getStudent().getAddress(),
+                                        reservation.getStudent().getContactNo(),
+                                        reservation.getStudent().getDob(),
+                                        reservation.getStudent().getGender()
+                                ),
+                                new RoomDTO(
+                                        reservation.getRoom().getId(),
+                                        reservation.getRoom().getType(),
+                                        reservation.getRoom().getKeyMoney(),
+                                        reservation.getRoom().getQty()
+                                ),
+                                reservation.getStatus()
+                        )
+                );
+            }
+
+            return reservationDTOS;
+        }catch (Exception e){
+            session.close();
+            return null;
         }
-
-        return reservationDTOS;
     }
 
     @Override
-    public boolean saveReservation(ReservationDTO reservationDTO) throws Exception {
+    public boolean saveReservation(ReservationDTO reservationDTO){
         session=SessionFactoryConfiguration.getInstance().getSession();
         Transaction transaction = session.beginTransaction();
 
         try{
             reservationDAO.setSession(session);
+
             reservationDAO.save(
                     new Reservation(
                             reservationDTO.getResID(),
                             reservationDTO.getDate(),
-                            reservationDTO.getStudent(),
-                            reservationDTO.getRoom(),
+                            new Student(
+                                    reservationDTO.getStudent().getId(),
+                                    reservationDTO.getStudent().getName(),
+                                    reservationDTO.getStudent().getAddress(),
+                                    reservationDTO.getStudent().getContactNo(),
+                                    reservationDTO.getStudent().getDob(),
+                                    reservationDTO.getStudent().getGender()
+                            ),
+                            new Room(
+                                    reservationDTO.getRoom().getId(),
+                                    reservationDTO.getRoom().getType(),
+                                    reservationDTO.getRoom().getKeyMoney(),
+                                    reservationDTO.getRoom().getQty()
+                            ),
                             reservationDTO.getStatus()
                     )
             );
@@ -83,8 +113,20 @@ public class ReservationBOImpl implements ReservationBO {
                     new Reservation(
                             reservationDTO.getResID(),
                             reservationDTO.getDate(),
-                            reservationDTO.getStudent(),
-                            reservationDTO.getRoom(),
+                            new Student(
+                                    reservationDTO.getStudent().getId(),
+                                    reservationDTO.getStudent().getName(),
+                                    reservationDTO.getStudent().getAddress(),
+                                    reservationDTO.getStudent().getContactNo(),
+                                    reservationDTO.getStudent().getDob(),
+                                    reservationDTO.getStudent().getGender()
+                            ),
+                            new Room(
+                                    reservationDTO.getRoom().getId(),
+                                    reservationDTO.getRoom().getType(),
+                                    reservationDTO.getRoom().getKeyMoney(),
+                                    reservationDTO.getRoom().getQty()
+                            ),
                             reservationDTO.getStatus()
                     )
             );
@@ -98,7 +140,7 @@ public class ReservationBOImpl implements ReservationBO {
     }
 
     @Override
-    public StudentDTO getStudent(String id) throws Exception {
+    public StudentDTO getStudent(String id) {
         session= SessionFactoryConfiguration.getInstance().getSession();
 
         try {
@@ -114,13 +156,13 @@ public class ReservationBOImpl implements ReservationBO {
                     student.getGender()
             );
         } catch (Exception ex){
-
+            session.close();
+            return null;
         }
-        return null;
     }
 
     @Override
-    public RoomDTO getRoom(String id) throws Exception {
+    public RoomDTO getRoom(String id) {
         session= SessionFactoryConfiguration.getInstance().getSession();
 
         try {
@@ -135,13 +177,13 @@ public class ReservationBOImpl implements ReservationBO {
             );
 
         } catch (Exception ex){
-
+            session.close();
+            return null;
         }
-        return null;
     }
 
     @Override
-    public boolean deleteReservation(ReservationDTO reservationDTO) throws Exception {
+    public boolean deleteReservation(ReservationDTO reservationDTO) {
         session=SessionFactoryConfiguration.getInstance().getSession();
         Transaction transaction = session.beginTransaction();
         try{
@@ -150,14 +192,27 @@ public class ReservationBOImpl implements ReservationBO {
                     new Reservation(
                             reservationDTO.getResID(),
                             reservationDTO.getDate(),
-                            reservationDTO.getStudent(),
-                            reservationDTO.getRoom(),
+                            new Student(
+                                    reservationDTO.getStudent().getId(),
+                                    reservationDTO.getStudent().getName(),
+                                    reservationDTO.getStudent().getAddress(),
+                                    reservationDTO.getStudent().getContactNo(),
+                                    reservationDTO.getStudent().getDob(),
+                                    reservationDTO.getStudent().getGender()
+                            ),
+                            new Room(
+                                    reservationDTO.getRoom().getId(),
+                                    reservationDTO.getRoom().getType(),
+                                    reservationDTO.getRoom().getKeyMoney(),
+                                    reservationDTO.getRoom().getQty()
+                            ),
                             reservationDTO.getStatus()
                     )
             );
             transaction.commit();
             session.close();
         }catch (Exception e){
+            session.close();
             transaction.rollback();
         }
 
@@ -165,9 +220,38 @@ public class ReservationBOImpl implements ReservationBO {
     }
 
     @Override
-    public String generateNextReservationID() throws Exception {
-        session= SessionFactoryConfiguration.getInstance().getSession();
-        reservationDAO.setSession(session);
-        return reservationDAO.generateID();
+    public String generateNextReservationID(){
+        try{
+            session= SessionFactoryConfiguration.getInstance().getSession();
+            reservationDAO.setSession(session);
+            return reservationDAO.generateID();
+        }catch (Exception e){
+            session.close();
+        }
+        return null;
+    }
+
+    @Override
+    public List<String> getStudentIds() {
+        try{
+            session= SessionFactoryConfiguration.getInstance().getSession();
+            studentDAO.setSession(session);
+            return studentDAO.getIds();
+        }catch (Exception e) {
+            session.close();
+            return null;
+        }
+    }
+
+    @Override
+    public List<String> getRoomIds() {
+        try{
+            session= SessionFactoryConfiguration.getInstance().getSession();
+            roomsDAO.setSession(session);
+            return roomsDAO.getIds();
+        }catch (Exception e){
+            session.close();
+            return null;
+        }
     }
 }

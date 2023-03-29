@@ -8,8 +8,8 @@ import java.sql.Date;
 public class ReservationDTO {
     private String resID;
     private Date date;
-    private Student student;
-    private Room room;
+    private StudentDTO studentDTO;
+    private RoomDTO roomDTO;
     private String status;
     private String studentID;
     private String roomID;
@@ -23,11 +23,11 @@ public class ReservationDTO {
         this.status = status;
     }
 
-    public ReservationDTO(String resID, Date date, Student student, Room room, String status) {
+    public ReservationDTO(String resID, Date date, StudentDTO student, RoomDTO room, String status) {
         this.resID = resID;
         this.date = date;
-        this.student = student;
-        this.room = room;
+        this.studentDTO = student;
+        this.roomDTO = room;
         this.status = status;
         studentID=student.getId();
         roomID=room.getId();
@@ -49,22 +49,22 @@ public class ReservationDTO {
         this.date = date;
     }
 
-    public Student getStudent() {
-        return student;
+    public StudentDTO getStudent() {
+        return studentDTO;
     }
 
-    public void setStudent(Student student) {
-        this.student = student;
-        studentID=student.getId();
+    public void setStudent(StudentDTO studentDTO) {
+        this.studentDTO = studentDTO;
+        studentID=studentDTO.getId();
     }
 
-    public Room getRoom() {
-        return room;
+    public RoomDTO getRoom() {
+        return roomDTO;
     }
 
-    public void setRoom(Room room) {
-        this.room = room;
-        roomID=room.getId();
+    public void setRoom(RoomDTO roomDTO) {
+        this.roomDTO = roomDTO;
+        roomID=roomDTO.getId();
     }
 
     public String getStatus() {
@@ -96,8 +96,8 @@ public class ReservationDTO {
         return "Reservation{" +
                 "resID='" + resID + '\'' +
                 ", date=" + date +
-                ", student=" + student +
-                ", room=" + room +
+                ", student=" + studentDTO +
+                ", room=" + roomDTO +
                 ", status='" + status + '\'' +
                 '}';
     }
