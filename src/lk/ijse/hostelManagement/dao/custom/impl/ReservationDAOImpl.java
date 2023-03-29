@@ -46,19 +46,14 @@ public class ReservationDAOImpl implements ReservationDAO {
 
     @Override
     public String generateID() throws Exception {
-        Reservation reservation = null;
-        try {
-            String sqlQuery="FROM Reservation ORDER BY id DESC";
-            Query query = session.createQuery(sqlQuery);
-            query.setMaxResults(1);
-            reservation = (Reservation) query.uniqueResult();
-        }catch (Exception e){
+        String sqlQuery="FROM Reservation ORDER BY id DESC";
+        Query query = session.createQuery(sqlQuery);
+        query.setMaxResults(1);
+        Reservation reservation = (Reservation) query.uniqueResult();
 
-        }
 
-        String lastID=reservation.getResID();
-
-        if (lastID != null){
+        if (reservation != null){
+            String lastID=reservation.getResID();
             int newReserveID=Integer.parseInt(lastID.replace("REV-",""))+1;
             return String.format("REV-%03d",newReserveID);
         }

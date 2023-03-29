@@ -28,7 +28,7 @@ public class BOFactory {
     }
 
 
-    public static SuperBO getBO(BOTypes boTypes){
+    public SuperBO getBO(BOTypes boTypes){
         switch (boTypes){
             case Student :
                 return new StudentBOImpl();

@@ -17,6 +17,8 @@ public class StudentBOImpl implements StudentBO {
     StudentDAO studentDAO = (StudentDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.Student);
     @Override
     public List<StudentDTO> loadAll() throws Exception {
+        session= SessionFactoryConfiguration.getInstance().getSession();
+        studentDAO.setSession(session);
         List<Student> students = studentDAO.loadAll();
         List<StudentDTO>studentDTOS=new ArrayList<>();
 
@@ -38,21 +40,24 @@ public class StudentBOImpl implements StudentBO {
 
     @Override
     public boolean saveStudent(StudentDTO studentDTO) {
-        Transaction transaction = session.beginTransaction();
         session= SessionFactoryConfiguration.getInstance().getSession();
+        Transaction transaction = session.beginTransaction();
         try{
             studentDAO.setSession(session);
-            studentDAO.save(
+            String id = studentDAO.save(
                     new Student(
-                        studentDTO.getId(),
-                        studentDTO.getName(),
-                        studentDTO.getAddress(),
-                        studentDTO.getContactNo(),
-                        studentDTO.getDob(),
-                        studentDTO.getGender()
-            ));
+                            studentDTO.getId(),
+                            studentDTO.getName(),
+                            studentDTO.getAddress(),
+                            studentDTO.getContactNo(),
+                            studentDTO.getDob(),
+                            studentDTO.getGender()
+                    ));
             transaction.commit();
             session.close();
+            if (id!=null){
+                return true;
+            }
         }catch (Exception e){
             transaction.rollback();
         }
@@ -62,8 +67,8 @@ public class StudentBOImpl implements StudentBO {
 
     @Override
     public boolean updateStudent(StudentDTO studentDTO) throws Exception {
-        Transaction transaction = session.beginTransaction();
         session=SessionFactoryConfiguration.getInstance().getSession();
+        Transaction transaction = session.beginTransaction();
 
         try {
             studentDAO.setSession(session);
@@ -78,6 +83,7 @@ public class StudentBOImpl implements StudentBO {
                     ));
             transaction.commit();
             session.close();
+            return true;
         }catch (Exception e){
             transaction.rollback();
         }
@@ -87,8 +93,8 @@ public class StudentBOImpl implements StudentBO {
 
     @Override
     public boolean deleteStudent(StudentDTO studentDTO) throws Exception {
-        Transaction transaction = session.beginTransaction();
         session=SessionFactoryConfiguration.getInstance().getSession();
+        Transaction transaction = session.beginTransaction();
 
         try {
             studentDAO.setSession(session);
@@ -103,6 +109,7 @@ public class StudentBOImpl implements StudentBO {
                     ));
             transaction.commit();
             session.close();
+            return true;
         }catch (Exception e){
             transaction.rollback();
         }
@@ -112,6 +119,8 @@ public class StudentBOImpl implements StudentBO {
 
     @Override
     public String generateNextStudentID() throws Exception {
+        session= SessionFactoryConfiguration.getInstance().getSession();
+        studentDAO.setSession(session);
         return studentDAO.generateID();
     }
 }

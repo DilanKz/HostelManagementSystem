@@ -9,6 +9,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import lk.ijse.hostelManagement.dto.RoomDTO;
 
 public class RoomFormController {
 
@@ -22,19 +24,19 @@ public class RoomFormController {
     private JFXButton btnAdd;
 
     @FXML
-    private TableView<?> tblRooms;
+    private TableView<RoomDTO> tblRooms;
 
     @FXML
-    private TableColumn<?, ?> colTypeID;
+    private TableColumn<RoomDTO, String> colTypeID;
 
     @FXML
-    private TableColumn<?, ?> colType;
+    private TableColumn<RoomDTO, String> colType;
 
     @FXML
-    private TableColumn<?, ?> colKeyMoney;
+    private TableColumn<RoomDTO, String> colKeyMoney;
 
     @FXML
-    private TableColumn<?, ?> colQty;
+    private TableColumn<RoomDTO, String> colQty;
 
     @FXML
     private TextField txtSearch;
@@ -73,17 +75,13 @@ public class RoomFormController {
 
     @FXML
     void initialize() {
-        assert btnAdd != null : "fx:id=\"btnAdd\" was not injected: check your FXML file 'RoomForm.fxml'.";
-        assert tblRooms != null : "fx:id=\"tblRooms\" was not injected: check your FXML file 'RoomForm.fxml'.";
-        assert colTypeID != null : "fx:id=\"colTypeID\" was not injected: check your FXML file 'RoomForm.fxml'.";
-        assert colType != null : "fx:id=\"colType\" was not injected: check your FXML file 'RoomForm.fxml'.";
-        assert colKeyMoney != null : "fx:id=\"colKeyMoney\" was not injected: check your FXML file 'RoomForm.fxml'.";
-        assert colQty != null : "fx:id=\"colQty\" was not injected: check your FXML file 'RoomForm.fxml'.";
-        assert txtSearch != null : "fx:id=\"txtSearch\" was not injected: check your FXML file 'RoomForm.fxml'.";
-        assert txtType != null : "fx:id=\"txtType\" was not injected: check your FXML file 'RoomForm.fxml'.";
-        assert txtKeyMoney != null : "fx:id=\"txtKeyMoney\" was not injected: check your FXML file 'RoomForm.fxml'.";
-        assert txtQty != null : "fx:id=\"txtQty\" was not injected: check your FXML file 'RoomForm.fxml'.";
-        assert lblStudentID != null : "fx:id=\"lblStudentID\" was not injected: check your FXML file 'RoomForm.fxml'.";
+        setProperties();
+    }
 
+    private void setProperties(){
+        colTypeID.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colType.setCellValueFactory(new PropertyValueFactory<>("type"));
+        colKeyMoney.setCellValueFactory(new PropertyValueFactory<>("keyMoney"));
+        colQty.setCellValueFactory(new PropertyValueFactory<>("qty"));
     }
 }

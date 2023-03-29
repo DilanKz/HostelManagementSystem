@@ -11,6 +11,8 @@ public class ReservationDTO {
     private Student student;
     private Room room;
     private String status;
+    private String studentID;
+    private String roomID;
 
     public ReservationDTO() {
     }
@@ -27,6 +29,8 @@ public class ReservationDTO {
         this.student = student;
         this.room = room;
         this.status = status;
+        studentID=student.getId();
+        roomID=room.getId();
     }
 
     public String getResID() {
@@ -51,6 +55,7 @@ public class ReservationDTO {
 
     public void setStudent(Student student) {
         this.student = student;
+        studentID=student.getId();
     }
 
     public Room getRoom() {
@@ -59,6 +64,7 @@ public class ReservationDTO {
 
     public void setRoom(Room room) {
         this.room = room;
+        roomID=room.getId();
     }
 
     public String getStatus() {
@@ -67,6 +73,22 @@ public class ReservationDTO {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getStudentID() {
+        return studentID;
+    }
+
+    public void setStudentID(String studentID) {
+        this.studentID = studentID;
+    }
+
+    public String getRoomID() {
+        return roomID;
+    }
+
+    public void setRoomID(String roomID) {
+        this.roomID = roomID;
     }
 
     @Override

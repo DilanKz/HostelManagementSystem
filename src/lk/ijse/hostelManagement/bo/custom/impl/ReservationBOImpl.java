@@ -26,6 +26,9 @@ public class ReservationBOImpl implements ReservationBO {
     ReservationDAO reservationDAO = (ReservationDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.Reservation);
     @Override
     public List<ReservationDTO> loadAll() throws Exception {
+        session= SessionFactoryConfiguration.getInstance().getSession();
+        reservationDAO.setSession(session);
+
         List<Reservation> reservations = reservationDAO.loadAll();
         List<ReservationDTO> reservationDTOS=new ArrayList<>();
 
@@ -46,8 +49,9 @@ public class ReservationBOImpl implements ReservationBO {
 
     @Override
     public boolean saveReservation(ReservationDTO reservationDTO) throws Exception {
+        session=SessionFactoryConfiguration.getInstance().getSession();
         Transaction transaction = session.beginTransaction();
-        session= SessionFactoryConfiguration.getInstance().getSession();
+
         try{
             reservationDAO.setSession(session);
             reservationDAO.save(
@@ -70,8 +74,9 @@ public class ReservationBOImpl implements ReservationBO {
 
     @Override
     public boolean updateReservation(ReservationDTO reservationDTO) throws Exception {
+        session=SessionFactoryConfiguration.getInstance().getSession();
         Transaction transaction = session.beginTransaction();
-        session= SessionFactoryConfiguration.getInstance().getSession();
+
         try{
             reservationDAO.setSession(session);
             reservationDAO.update(
@@ -95,6 +100,7 @@ public class ReservationBOImpl implements ReservationBO {
     @Override
     public StudentDTO getStudent(String id) throws Exception {
         session= SessionFactoryConfiguration.getInstance().getSession();
+
         try {
             studentDAO.setSession(session);
             Student student = studentDAO.getObject(id);
@@ -116,6 +122,7 @@ public class ReservationBOImpl implements ReservationBO {
     @Override
     public RoomDTO getRoom(String id) throws Exception {
         session= SessionFactoryConfiguration.getInstance().getSession();
+
         try {
             roomsDAO.setSession(session);
             Room room = roomsDAO.getObject(id);
@@ -126,7 +133,7 @@ public class ReservationBOImpl implements ReservationBO {
                     room.getKeyMoney(),
                     room.getQty()
             );
-            
+
         } catch (Exception ex){
 
         }
@@ -135,8 +142,8 @@ public class ReservationBOImpl implements ReservationBO {
 
     @Override
     public boolean deleteReservation(ReservationDTO reservationDTO) throws Exception {
+        session=SessionFactoryConfiguration.getInstance().getSession();
         Transaction transaction = session.beginTransaction();
-        session= SessionFactoryConfiguration.getInstance().getSession();
         try{
             reservationDAO.setSession(session);
             reservationDAO.delete(
@@ -159,6 +166,8 @@ public class ReservationBOImpl implements ReservationBO {
 
     @Override
     public String generateNextReservationID() throws Exception {
+        session= SessionFactoryConfiguration.getInstance().getSession();
+        reservationDAO.setSession(session);
         return reservationDAO.generateID();
     }
 }

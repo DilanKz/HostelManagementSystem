@@ -52,12 +52,5 @@ public class ReservationFormController {
 
     @FXML
     void initialize() {
-        assert cmbGender != null : "fx:id=\"cmbGender\" was not injected: check your FXML file 'ReservationForm.fxml'.";
-        assert lblStudentName != null : "fx:id=\"lblStudentName\" was not injected: check your FXML file 'ReservationForm.fxml'.";
-        assert cmbGender1 != null : "fx:id=\"cmbGender1\" was not injected: check your FXML file 'ReservationForm.fxml'.";
-        assert lblRoomQty != null : "fx:id=\"lblRoomQty\" was not injected: check your FXML file 'ReservationForm.fxml'.";
-        assert cbxStatus != null : "fx:id=\"cbxStatus\" was not injected: check your FXML file 'ReservationForm.fxml'.";
-        assert btnReserve != null : "fx:id=\"btnReserve\" was not injected: check your FXML file 'ReservationForm.fxml'.";
-
     }
 }

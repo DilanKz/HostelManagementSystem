@@ -18,6 +18,8 @@ public class RoomsBOImpl implements RoomsBO {
     RoomsDAO roomsDAO = (RoomsDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.Rooms);
     @Override
     public List<RoomDTO> loadAll() throws Exception {
+        session= SessionFactoryConfiguration.getInstance().getSession();
+        roomsDAO.setSession(session);
         List<Room> rooms = roomsDAO.loadAll();
         List<RoomDTO> roomDTOS=new ArrayList<>();
 
@@ -37,8 +39,8 @@ public class RoomsBOImpl implements RoomsBO {
 
     @Override
     public boolean saveRoom(RoomDTO roomDTO) throws Exception {
+        session=SessionFactoryConfiguration.getInstance().getSession();
         Transaction transaction = session.beginTransaction();
-        session= SessionFactoryConfiguration.getInstance().getSession();
         try{
             roomsDAO.setSession(session);
             roomsDAO.save(
@@ -60,8 +62,8 @@ public class RoomsBOImpl implements RoomsBO {
 
     @Override
     public boolean updateRoom(RoomDTO roomDTO) throws Exception {
+        session=SessionFactoryConfiguration.getInstance().getSession();
         Transaction transaction = session.beginTransaction();
-        session= SessionFactoryConfiguration.getInstance().getSession();
 
         try {
             roomsDAO.setSession(session);
@@ -84,8 +86,8 @@ public class RoomsBOImpl implements RoomsBO {
 
     @Override
     public boolean deleteRoom(RoomDTO roomDTO) throws Exception {
+        session=SessionFactoryConfiguration.getInstance().getSession();
         Transaction transaction = session.beginTransaction();
-        session= SessionFactoryConfiguration.getInstance().getSession();
 
         try {
             roomsDAO.setSession(session);
@@ -108,6 +110,8 @@ public class RoomsBOImpl implements RoomsBO {
 
     @Override
     public String generateNextRoomID() throws Exception {
+        session= SessionFactoryConfiguration.getInstance().getSession();
+        roomsDAO.setSession(session);
         return roomsDAO.generateID();
     }
 }

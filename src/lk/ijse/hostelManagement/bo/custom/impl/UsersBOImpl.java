@@ -39,8 +39,8 @@ public class UsersBOImpl implements UsersBO {
 
     @Override
     public boolean saveUsers(UsersDTO usersDTO) throws Exception {
+        session=SessionFactoryConfiguration.getInstance().getSession();
         Transaction transaction = session.beginTransaction();
-        session= SessionFactoryConfiguration.getInstance().getSession();
         try{
             userDAO.setSession(session);
             userDAO.save(
@@ -64,8 +64,8 @@ public class UsersBOImpl implements UsersBO {
 
     @Override
     public boolean updateUsers(UsersDTO usersDTO) throws Exception {
+        session=SessionFactoryConfiguration.getInstance().getSession();
         Transaction transaction = session.beginTransaction();
-        session= SessionFactoryConfiguration.getInstance().getSession();
 
         try {
             userDAO.setSession(session);
@@ -90,8 +90,8 @@ public class UsersBOImpl implements UsersBO {
 
     @Override
     public boolean deleteUsers(UsersDTO usersDTO) throws Exception {
+        session=SessionFactoryConfiguration.getInstance().getSession();
         Transaction transaction = session.beginTransaction();
-        session= SessionFactoryConfiguration.getInstance().getSession();
 
         try {
             userDAO.setSession(session);

@@ -1,13 +1,10 @@
 package lk.ijse.hostelManagement.dao.custom.impl;
 
 import lk.ijse.hostelManagement.dao.custom.StudentDAO;
-import lk.ijse.hostelManagement.entity.Reservation;
 import lk.ijse.hostelManagement.entity.Student;
-import lk.ijse.hostelManagement.util.SessionFactoryConfiguration;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
-import java.io.Serializable;
 import java.util.List;
 
 public class StudentDAOImpl implements StudentDAO {
@@ -45,19 +42,12 @@ public class StudentDAOImpl implements StudentDAO {
 
     @Override
     public String generateID() throws Exception {
-        Student student = null;
-        try {
-            String sqlQuery="FROM Reservation ORDER BY id DESC";
-            Query query = session.createQuery(sqlQuery);
-            query.setMaxResults(1);
-            student = (Student) query.uniqueResult();
-        }catch (Exception e){
+        String sqlQuery="FROM Student ORDER BY id DESC";
+        Student student = (Student) session.createQuery(sqlQuery).setMaxResults(1).uniqueResult();
+        session.close();
 
-        }
-
-        String lastID=student.getId();
-
-        if (lastID != null){
+        if (student != null){
+            String lastID=student.getId();
             int newStudentID=Integer.parseInt(lastID.replace("STU-",""))+1;
             return String.format("STU-%03d",newStudentID);
         }

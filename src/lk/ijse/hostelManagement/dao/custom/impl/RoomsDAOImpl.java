@@ -42,19 +42,13 @@ public class RoomsDAOImpl implements RoomsDAO {
 
     @Override
     public String generateID() throws Exception {
-        Room room = null;
-        try {
-            String sqlQuery="FROM Reservation ORDER BY id DESC";
-            Query query = session.createQuery(sqlQuery);
-            query.setMaxResults(1);
-            room = (Room) query.uniqueResult();
-        }catch (Exception e){
+        String sqlQuery="FROM Reservation ORDER BY id DESC";
+        Query query = session.createQuery(sqlQuery);
+        query.setMaxResults(1);
+        Room room = (Room) query.uniqueResult();
 
-        }
-
-        String lastID=room.getId();
-
-        if (lastID != null){
+        if (room != null){
+            String lastID=room.getId();
             int newRoomID=Integer.parseInt(lastID.replace("RM-",""))+1;
             return String.format("RM-%03d",newRoomID);
         }
