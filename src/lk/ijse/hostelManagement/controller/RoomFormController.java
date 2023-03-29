@@ -2,18 +2,26 @@ package lk.ijse.hostelManagement.controller;
 
 import com.jfoenix.controls.JFXButton;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import lk.ijse.hostelManagement.bo.BOFactory;
+import lk.ijse.hostelManagement.bo.custom.RoomsBO;
 import lk.ijse.hostelManagement.dto.RoomDTO;
+import lk.ijse.hostelManagement.dto.StudentDTO;
 
 public class RoomFormController {
 
+    public JFXButton btnClear;
+    public JFXButton btnDelete;
+    public JFXButton btnCancel;
+    public JFXButton btnAddRoom;
     @FXML
     private ResourceBundle resources;
 
@@ -53,29 +61,114 @@ public class RoomFormController {
     @FXML
     private Label lblStudentID;
 
-    @FXML
-    void btnAddNewStudentOnAction(ActionEvent event) {
+    RoomsBO roomsBO= (RoomsBO) BOFactory.getInstance().getBO(BOFactory.BOTypes.Rooms);
 
+    @FXML
+    void btnAddNewStudentOnAction(ActionEvent event) throws Exception {
+        btnAdd.setText("Save");
+        btnAddRoom.setDisable(true);
+        btnDelete.setDisable(true);
+        btnCancel.setDisable(false);
+        setFieldsActivation(false,false);
+        clearFields();
+        setID();
     }
 
     @FXML
     void btnClearOnAction(ActionEvent event) {
-
+        clearFields();
     }
 
     @FXML
-    void btnDeleteOnAction(ActionEvent event) {
+    void btnDeleteOnAction(ActionEvent event) throws Exception{
+        boolean isValidate = checkValidation();
+        if (isValidate){
+            boolean isSaved = roomsBO.deleteRoom(
+                    new RoomDTO(
+                            lblStudentID.getText(),
+                            txtType.getText(),
+                            txtKeyMoney.getText(),
+                            Integer.parseInt(txtQty.getText())
+                    )
+            );
 
+            if (isSaved){
+                new Alert(Alert.AlertType.CONFIRMATION, "Room Deleted").show();
+                setFieldsActivation(true,false);
+                clearFields();
+                tblRooms.getItems().clear();
+                loadAllRooms();
+            }else{
+                new Alert(Alert.AlertType.ERROR, "Error").show();
+            }
+
+        }
     }
 
     @FXML
-    void btnSaveOnAction(ActionEvent event) {
+    void btnSaveOnAction(ActionEvent event) throws Exception{
+        if (btnAdd.getText().equals("Save")){
+            saveRoom();
+        }else{
+            updateRoom();
+        }
+    }
 
+    private void saveRoom() throws Exception {
+        boolean isValidate = checkValidation();
+        if (isValidate){
+            boolean isSaved = roomsBO.saveRoom(
+                    new RoomDTO(
+                            lblStudentID.getText(),
+                            txtType.getText(),
+                            txtKeyMoney.getText(),
+                            Integer.parseInt(txtQty.getText())
+                    )
+            );
+
+            if (isSaved){
+                new Alert(Alert.AlertType.CONFIRMATION, "Room saved").show();
+                setFieldsActivation(true,false);
+                clearFields();
+                tblRooms.getItems().clear();
+                loadAllRooms();
+            }else{
+                new Alert(Alert.AlertType.ERROR, "Error").show();
+            }
+
+        }
+    }
+
+    private void updateRoom() throws Exception {
+        boolean isValidate = checkValidation();
+        if (isValidate){
+            boolean isSaved = roomsBO.saveRoom(
+                    new RoomDTO(
+                            lblStudentID.getText(),
+                            txtType.getText(),
+                            txtKeyMoney.getText(),
+                            Integer.parseInt(txtQty.getText())
+                    )
+            );
+
+            if (isSaved){
+                new Alert(Alert.AlertType.CONFIRMATION, "Customer saved").show();
+                setFieldsActivation(true,false);
+                clearFields();
+                tblRooms.getItems().clear();
+                loadAllRooms();
+            }else{
+                new Alert(Alert.AlertType.ERROR, "Error").show();
+            }
+
+        }
     }
 
     @FXML
-    void initialize() {
+    void initialize() throws Exception{
         setProperties();
+        loadAllRooms();
+        getData();
     }
 
     private void setProperties(){
@@ -83,5 +176,89 @@ public class RoomFormController {
         colType.setCellValueFactory(new PropertyValueFactory<>("type"));
         colKeyMoney.setCellValueFactory(new PropertyValueFactory<>("keyMoney"));
         colQty.setCellValueFactory(new PropertyValueFactory<>("qty"));
+    }
+
+    void loadAllRooms() throws Exception{
+        List<RoomDTO> roomDTOS = roomsBO.loadAll();
+        ObservableList<RoomDTO> observableList= FXCollections.observableList(roomDTOS);
+        tblRooms.setItems(observableList);
+    }
+
+    private boolean checkValidation(){
+        String typeText = txtType.getText();
+        String moneyText = txtKeyMoney.getText();
+        String qtyText = txtQty.getText();
+
+        if (!typeText.matches("[A-Za-z0-9 ]+")) {
+            new Alert(Alert.AlertType.ERROR, "Invalid name").show();
+            txtType.requestFocus();
+            return false;
+        } else if (!moneyText.matches("^[0-9]+[.]?[0-9]*$")) {
+            new Alert(Alert.AlertType.ERROR, "invalid key money").show();
+            txtKeyMoney.requestFocus();
+            return false;
+        } else if (!qtyText.matches("^\\d+$")) {
+            new Alert(Alert.AlertType.ERROR, "Invalid qty").show();
+            txtQty.requestFocus();
+            return false;
+        }else {
+            return true;
+        }
+
+    }
+
+    private void clearFields(){
+        lblStudentID.setText(" ");
+        txtQty.clear();
+        txtKeyMoney.clear();
+        txtType.clear();
+    }
+
+    private void setID() throws Exception {
+        lblStudentID.setText(roomsBO.generateNextRoomID());
+    }
+
+    void getData(){
+        tblRooms.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            setFieldsActivation(false,true);
+            btnCancel.setDisable(true);
+
+            btnAdd.setText(newValue != null ? "Update" : "Save");
+            btnAdd.setDisable(newValue == null);
+
+            if (newValue != null) {
+
+                lblStudentID.setText(newValue.getId());
+                txtType.setText(newValue.getType());
+                txtKeyMoney.setText(newValue.getKeyMoney());
+                txtQty.setText(String.valueOf(newValue.getQty()));
+
+            }
+        });
+    }
+
+    @FXML
+    private void btnCancelOnAction(ActionEvent actionEvent) {
+        btnCancel.setDisable(true);
+        btnAddRoom.setDisable(false);
+        clearFields();
+        setFieldsActivation(true,false);
+    }
+
+    private void setFieldsActivation(boolean isActivate,boolean isStatus){
+
+        txtType.setDisable(isActivate);
+        txtKeyMoney.setDisable(isActivate);
+        txtQty.setDisable(isActivate);
+
+        btnClear.setDisable(isActivate);
+        btnAdd.setDisable(isActivate);
+
+        if (!isActivate){
+            if (isStatus){
+                btnDelete.setDisable(false);
+                btnAdd.setText("Update");
+            }
+        }
     }
 }

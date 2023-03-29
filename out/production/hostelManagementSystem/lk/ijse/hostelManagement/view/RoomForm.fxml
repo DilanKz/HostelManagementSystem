@@ -9,27 +9,26 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="816.0" prefWidth="1686.0" style="-fx-background-color: C4DDFF;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.hostelManagement.controller.RoomFormController">
    <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="631.0" layoutX="50.0" layoutY="134.0" stroke="WHITE" strokeType="INSIDE" width="564.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="595.0" layoutX="50.0" layoutY="134.0" stroke="WHITE" strokeType="INSIDE" width="564.0" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="631.0" layoutX="754.0" layoutY="134.0" stroke="WHITE" strokeType="INSIDE" width="887.0" />
-      <JFXButton layoutX="52.0" layoutY="77.0" onAction="#btnAddNewStudentOnAction" prefHeight="39.0" prefWidth="207.0" style="-fx-background-color: blue;" text="Add New Room  +" textFill="WHITE">
+      <JFXButton fx:id="btnAddRoom" layoutX="52.0" layoutY="77.0" onAction="#btnAddNewStudentOnAction" prefHeight="39.0" prefWidth="207.0" style="-fx-background-color: blue;" text="Add New Room  +" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </JFXButton>
-      <JFXButton disable="true" layoutX="257.0" layoutY="591.0" onAction="#btnClearOnAction" prefHeight="39.0" prefWidth="79.0" style="-fx-background-color: orange;" text="Clear" textFill="WHITE">
+      <JFXButton fx:id="btnClear" disable="true" layoutX="256.0" layoutY="591.0" onAction="#btnClearOnAction" prefHeight="39.0" prefWidth="80.0" style="-fx-background-color: orange;" text="Clear" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </JFXButton>
-      <JFXButton fx:id="btnAdd" disable="true" layoutX="487.0" layoutY="592.0" onAction="#btnSaveOnAction" prefHeight="39.0" prefWidth="79.0" style="-fx-background-color: green;" text="save" textFill="WHITE">
+      <JFXButton fx:id="btnAdd" disable="true" layoutX="471.0" layoutY="592.0" onAction="#btnSaveOnAction" prefHeight="39.0" prefWidth="95.0" style="-fx-background-color: green;" text="save" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </JFXButton>
-      <JFXButton disable="true" layoutX="370.0" layoutY="592.0" onAction="#btnDeleteOnAction" style="-fx-background-color: red;" text="Delete" textFill="WHITE">
+      <JFXButton fx:id="btnDelete" disable="true" layoutX="361.0" layoutY="592.0" onAction="#btnDeleteOnAction" prefHeight="39.0" prefWidth="88.0" style="-fx-background-color: red;" text="Delete" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
@@ -73,8 +72,13 @@
       </Label>
       <Label fx:id="lblStudentID" layoutX="129.0" layoutY="213.0" prefHeight="46.0" prefWidth="164.0" style="-fx-background-color: ffffff;" textFill="#057dcd">
          <font>
-            <Font name="System Bold" size="24.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
       </Label>
+      <JFXButton fx:id="btnCancel" disable="true" layoutX="274.0" layoutY="77.0" onAction="#btnCancelOnAction" style="-fx-background-color: red;" text="Cancel" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </JFXButton>
    </children>
 </AnchorPane>

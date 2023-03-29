@@ -75,7 +75,7 @@ public class StudentFormController {
 
     @FXML
     void btnClearOnAction(ActionEvent event) {
-
+        clearFields();
     }
 
     @FXML
@@ -94,7 +94,7 @@ public class StudentFormController {
             );
 
             if (isDeleted){
-                new Alert(Alert.AlertType.CONFIRMATION, "Customer Deleted").show();
+                new Alert(Alert.AlertType.CONFIRMATION, "Room Deleted").show();
                 setFieldsActivation(true,false);
                 clearFields();
                 tblStudents.getItems().clear();
@@ -109,14 +109,14 @@ public class StudentFormController {
     @FXML
     void btnSaveOnAction(ActionEvent event) throws Exception {
         if (btnAdd.getText().equals("Save")){
-            saveCustomer();
+            saveStudent();
         }else{
 
             updateStudent();
         }
     }
 
-    private void saveCustomer() throws Exception {
+    private void saveStudent() throws Exception {
         boolean isValidate = checkValidation();
         if (isValidate){
             boolean isSaved = studentBO.saveStudent(
@@ -131,7 +131,7 @@ public class StudentFormController {
             );
 
             if (isSaved){
-                new Alert(Alert.AlertType.CONFIRMATION, "Customer saved").show();
+                new Alert(Alert.AlertType.CONFIRMATION, "Student saved").show();
                 setFieldsActivation(true,false);
                 clearFields();
                 tblStudents.getItems().clear();
@@ -158,7 +158,7 @@ public class StudentFormController {
             );
 
             if (isUpdated){
-                new Alert(Alert.AlertType.CONFIRMATION, "Customer updated").show();
+                new Alert(Alert.AlertType.CONFIRMATION, "Room updated").show();
                 setFieldsActivation(true,false);
                 clearFields();
                 tblStudents.getItems().clear();

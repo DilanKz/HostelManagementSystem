@@ -53,6 +53,7 @@ public class RoomsBOImpl implements RoomsBO {
             );
             transaction.commit();
             session.close();
+            return true;
         }catch (Exception e){
             transaction.rollback();
         }
@@ -77,6 +78,7 @@ public class RoomsBOImpl implements RoomsBO {
             );
             transaction.commit();
             session.close();
+            return true;
         }catch (Exception e){
             transaction.rollback();
         }
@@ -101,6 +103,7 @@ public class RoomsBOImpl implements RoomsBO {
             );
             transaction.commit();
             session.close();
+            return true;
         }catch (Exception e){
             transaction.rollback();
         }
