@@ -6,4 +6,5 @@ import org.hibernate.Session;
 
 public interface ReservationDAO extends CrudDAO<Reservation> {
     void setSession(Session session) throws Exception;
+    boolean changePaidStatus(String id, String status);
 }

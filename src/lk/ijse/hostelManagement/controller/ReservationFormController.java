@@ -93,8 +93,10 @@ public class ReservationFormController {
     @FXML
     private TableColumn<ReservationDTO, String> colStatus;
     private ReservationBO reservationBO= (ReservationBO) BOFactory.getInstance().getBO(BOFactory.BOTypes.Reservation);
+    private String id;
     @FXML
     void btnAddNewReservationOnAction(ActionEvent event) throws Exception {
+        btnReserve.setText("Reserve");
         btnNewRes.setDisable(true);
         setReserveID();
         setFieldStatus(false);
@@ -108,17 +110,42 @@ public class ReservationFormController {
 
     @FXML
     void btnReserveOnAction(ActionEvent event) throws Exception {
-        boolean isSaved = reserveARoom(getData());
-        if (isSaved){
-            new Alert(Alert.AlertType.CONFIRMATION, "Room Reserved").show();
-            tblResDetails.getItems().clear();
-            tblStudentDetails.getItems().clear();
+        if (btnReserve.getText().equals("Reserve")){
+            boolean isSaved = reserveARoom(getData());
+            if (isSaved){
+                new Alert(Alert.AlertType.CONFIRMATION, "Room Reserved").show();
+                tblResDetails.getItems().clear();
+                tblStudentDetails.getItems().clear();
 
-            loadAll();
-            setUnpaidDetails();
-            //clearFields();
-        }else{
-            new Alert(Alert.AlertType.ERROR, "Error").show();
+                loadAll();
+                setUnpaidDetails();
+                //clearFields();
+            }else{
+                new Alert(Alert.AlertType.ERROR, "Error").show();
+            }
+        }else {
+            if (cbxStatus.isSelected()){
+                btnReserve.setDisable(false);
+
+                String status="paid";
+
+                boolean isUpdated = reservationBO.changePaidStatus(id, status);
+                if (isUpdated){
+                    tblResDetails.getItems().clear();
+                    tblStudentDetails.getItems().clear();
+
+                    new Alert(Alert.AlertType.CONFIRMATION, "Status updated").show();
+
+                    loadAll();
+                    setUnpaidDetails();
+
+                    cbxStatus.setDisable(true);
+                    btnReserve.setDisable(true);
+                }else {
+                    new Alert(Alert.AlertType.ERROR, "Error").show();
+                }
+
+            }else if (!cbxStatus.isSelected())btnReserve.setDisable(true);
         }
 
     }
@@ -134,6 +161,8 @@ public class ReservationFormController {
         setCellFactory();
         loadAll();
         setUnpaidDetails();
+        getUnpaidStudent();
+
     }
 
     private void setCellFactory(){
@@ -259,5 +288,30 @@ public class ReservationFormController {
         ObservableList<StudentDetailsDTO> studentDetailsDTOS=FXCollections.observableList(unpaidStudents);
 
         tblStudentDetails.setItems(studentDetailsDTOS);
+    }
+
+    void getUnpaidStudent(){
+        tblStudentDetails.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            btnCancel.setDisable(true);
+
+            btnReserve.setText(newValue != null ? "Update" : "Reserve");
+            //btnReserve.setDisable(newValue == null);
+
+            if (newValue != null) {
+                cbxStatus.setDisable(false);
+                id= newValue.getResID();
+            }
+        });
+    }
+
+    public void cbxStatusOnAction(ActionEvent actionEvent) {
+        if (btnReserve.getText().equals("Update")){
+            if (cbxStatus.isSelected()){
+                btnReserve.setDisable(false);
+
+                String status="paid";
+
+            }else if (!cbxStatus.isSelected())btnReserve.setDisable(true);
+        }
     }
 }

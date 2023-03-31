@@ -2,7 +2,6 @@ package lk.ijse.hostelManagement.dao.custom.impl;
 
 import lk.ijse.hostelManagement.dao.custom.ReservationDAO;
 import lk.ijse.hostelManagement.entity.Reservation;
-import lk.ijse.hostelManagement.util.SessionFactoryConfiguration;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
@@ -64,5 +63,16 @@ public class ReservationDAOImpl implements ReservationDAO {
     @Override
     public void setSession(Session session) throws Exception {
         this.session=session;
+    }
+
+    @Override
+    public boolean changePaidStatus(String reserveId, String paidStatus) {
+        String hql="update Reservation r set r.status=:sts where r.id=:rid";
+        Query query = session.createQuery(hql);
+        query.setParameter("sts",paidStatus);
+        query.setParameter("rid",reserveId);
+        int count = query.executeUpdate();
+
+        return count >= 0;
     }
 }

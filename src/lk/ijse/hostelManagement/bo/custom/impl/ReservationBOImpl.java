@@ -290,4 +290,22 @@ public class ReservationBOImpl implements ReservationBO {
     public List<StudentDetailsDTO> getUnpaidStudents() {
         return queryDAO.getUnpaidStudents();
     }
+
+    @Override
+    public boolean changePaidStatus(String id, String status) {
+        boolean isUpdated = false;
+        session=SessionFactoryConfiguration.getInstance().getSession();
+        Transaction transaction = session.beginTransaction();
+        try {
+            reservationDAO.setSession(session);
+            isUpdated = reservationDAO.changePaidStatus(id,status);
+            transaction.commit();
+        }catch (Exception e){
+            session.close();
+            transaction.rollback();
+        }
+
+
+        return isUpdated;
+    }
 }

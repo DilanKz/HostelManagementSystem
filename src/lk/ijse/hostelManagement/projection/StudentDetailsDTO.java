@@ -70,6 +70,14 @@ public class StudentDetailsDTO {
         this.resID = resID;
     }
 
+    public String getRoomID() {
+        return roomID;
+    }
+
+    public void setRoomID(String roomID) {
+        this.roomID = roomID;
+    }
+
     public Room getRoom() {
         return room;
     }
@@ -87,7 +95,7 @@ public class StudentDetailsDTO {
                 ", contactNo='" + contactNo + '\'' +
                 ", date=" + date +
                 ", resID='" + resID + '\'' +
-                ", room=" + room +
+                ", room=" + roomID +
                 '}';
     }
 }

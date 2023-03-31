@@ -26,4 +26,6 @@ public interface ReservationBO extends SuperBO {
     boolean updateRoomQty(RoomDTO roomDTO) throws Exception;
 
     List<StudentDetailsDTO> getUnpaidStudents();
+
+    boolean changePaidStatus(String id,String status) throws Exception;
 }
