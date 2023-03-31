@@ -2,6 +2,7 @@ package lk.ijse.hostelManagement.bo.custom.impl;
 
 import lk.ijse.hostelManagement.bo.custom.ReservationBO;
 import lk.ijse.hostelManagement.dao.DAOFactory;
+import lk.ijse.hostelManagement.dao.custom.QueryDAO;
 import lk.ijse.hostelManagement.dao.custom.ReservationDAO;
 import lk.ijse.hostelManagement.dao.custom.RoomsDAO;
 import lk.ijse.hostelManagement.dao.custom.StudentDAO;
@@ -11,6 +12,7 @@ import lk.ijse.hostelManagement.dto.StudentDTO;
 import lk.ijse.hostelManagement.entity.Reservation;
 import lk.ijse.hostelManagement.entity.Room;
 import lk.ijse.hostelManagement.entity.Student;
+import lk.ijse.hostelManagement.projection.StudentDetailsDTO;
 import lk.ijse.hostelManagement.util.SessionFactoryConfiguration;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -24,6 +26,7 @@ public class ReservationBOImpl implements ReservationBO {
     StudentDAO studentDAO = (StudentDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.Student);
     RoomsDAO roomsDAO = (RoomsDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.Rooms);
     ReservationDAO reservationDAO = (ReservationDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.Reservation);
+    QueryDAO queryDAO = (QueryDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.Query);
     @Override
     public List<ReservationDTO> loadAll() throws Exception {
         session= SessionFactoryConfiguration.getInstance().getSession();
@@ -281,5 +284,10 @@ public class ReservationBOImpl implements ReservationBO {
         }
 
         return false;
+    }
+
+    @Override
+    public List<StudentDetailsDTO> getUnpaidStudents() {
+        return queryDAO.getUnpaidStudents();
     }
 }

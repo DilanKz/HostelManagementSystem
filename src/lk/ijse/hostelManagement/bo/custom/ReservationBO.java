@@ -4,6 +4,7 @@ import lk.ijse.hostelManagement.bo.SuperBO;
 import lk.ijse.hostelManagement.dto.ReservationDTO;
 import lk.ijse.hostelManagement.dto.RoomDTO;
 import lk.ijse.hostelManagement.dto.StudentDTO;
+import lk.ijse.hostelManagement.projection.StudentDetailsDTO;
 
 import java.util.List;
 
@@ -23,4 +24,6 @@ public interface ReservationBO extends SuperBO {
     List<String> getRoomIds() throws Exception;
 
     boolean updateRoomQty(RoomDTO roomDTO) throws Exception;
+
+    List<StudentDetailsDTO> getUnpaidStudents();
 }

@@ -13,6 +13,8 @@ public class StudentDetailsDTO {
     private Date date;
     private String resID;
 
+    private String roomID;
+
     private Room room;
 
     public StudentDetailsDTO() {
@@ -25,6 +27,7 @@ public class StudentDetailsDTO {
         this.date = date;
         this.resID = resID;
         this.room=room;
+        roomID=room.getId();
     }
 
     public String getStudentID() {
@@ -73,6 +76,7 @@ public class StudentDetailsDTO {
 
     public void setRoom(Room room) {
         this.room = room;
+        roomID=room.getId();
     }
 
     @Override

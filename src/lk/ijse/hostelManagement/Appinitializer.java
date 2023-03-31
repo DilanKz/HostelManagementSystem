@@ -20,24 +20,12 @@ public class Appinitializer extends Application {
         @Override
         public void start(Stage primaryStage) throws Exception {
 
-            Session session = SessionFactoryConfiguration.getInstance().getSession();
-            Transaction transaction = session.beginTransaction();
-
-            QueryDAOImpl queryDAO=new QueryDAOImpl();
-            List<StudentDetailsDTO> unpaidStudents = queryDAO.getUnpaidStudents();
-            for (StudentDetailsDTO studentDetailsDTO: unpaidStudents){
-                System.out.println(studentDetailsDTO.getStudentID());
-                System.out.println(studentDetailsDTO.getResID());
-                System.out.println(studentDetailsDTO.getRoom().getId());
-            }
-
-
-            /*Parent window = FXMLLoader.load(this.getClass().getResource("view/MainForm.fxml"));
+            Parent window = FXMLLoader.load(this.getClass().getResource("view/MainForm.fxml"));
             Scene scene = new Scene(window);
             primaryStage.setScene(scene);
             primaryStage.setTitle("Login Form");
             primaryStage.setFullScreenExitHint("");
             primaryStage.setFullScreen(true);
-            primaryStage.show();*/
+            primaryStage.show();
         }
 }

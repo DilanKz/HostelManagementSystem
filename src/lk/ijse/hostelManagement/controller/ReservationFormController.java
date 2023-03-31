@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXCheckBox;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -19,6 +20,7 @@ import lk.ijse.hostelManagement.bo.custom.ReservationBO;
 import lk.ijse.hostelManagement.dto.ReservationDTO;
 import lk.ijse.hostelManagement.dto.RoomDTO;
 import lk.ijse.hostelManagement.dto.StudentDTO;
+import lk.ijse.hostelManagement.projection.StudentDetailsDTO;
 
 public class ReservationFormController {
 
@@ -50,25 +52,25 @@ public class ReservationFormController {
     private JFXButton btnReserve;
 
     @FXML
-    private TableView<?> tblStudentDetails;
+    private TableView<StudentDetailsDTO> tblStudentDetails;
 
     @FXML
-    private TableColumn<?, ?> colReserveID;
+    private TableColumn<StudentDetailsDTO, String> colReserveID;
 
     @FXML
-    private TableColumn<?, ?> colStudentID;
+    private TableColumn<StudentDetailsDTO, String> colStudentID;
 
     @FXML
-    private TableColumn<?, ?> colSName;
+    private TableColumn<StudentDetailsDTO, String> colSName;
 
     @FXML
-    private TableColumn<?, ?> colContact;
+    private TableColumn<StudentDetailsDTO, String> colContact;
 
     @FXML
-    private TableColumn<?, ?> colRoomID;
+    private TableColumn<StudentDetailsDTO, String> colRoomID;
 
     @FXML
-    private TableColumn<?, ?> colRoomStatus;
+    private TableColumn<StudentDetailsDTO, Date> colRoomStatus;
 
     @FXML
     private Label lblResId;
@@ -110,13 +112,15 @@ public class ReservationFormController {
         if (isSaved){
             new Alert(Alert.AlertType.CONFIRMATION, "Room Reserved").show();
             tblResDetails.getItems().clear();
+            tblStudentDetails.getItems().clear();
+
             loadAll();
+            setUnpaidDetails();
             //clearFields();
         }else{
             new Alert(Alert.AlertType.ERROR, "Error").show();
         }
 
-        //System.out.println(getData());
     }
 
     public void btnCancelOnAction(ActionEvent actionEvent) {
@@ -129,6 +133,7 @@ public class ReservationFormController {
     void initialize() throws Exception{
         setCellFactory();
         loadAll();
+        setUnpaidDetails();
     }
 
     private void setCellFactory(){
@@ -137,6 +142,13 @@ public class ReservationFormController {
         colStudent.setCellValueFactory(new PropertyValueFactory<>("studentID"));
         colRoomTID.setCellValueFactory(new PropertyValueFactory<>("roomID"));
         colStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
+
+        colReserveID.setCellValueFactory(new PropertyValueFactory<>("resID"));
+        colRoomStatus.setCellValueFactory(new PropertyValueFactory<>("date"));
+        colStudentID.setCellValueFactory(new PropertyValueFactory<>("studentID"));
+        colRoomID.setCellValueFactory(new PropertyValueFactory<>("roomID"));
+        colContact.setCellValueFactory(new PropertyValueFactory<>("contactNo"));
+        colSName.setCellValueFactory(new PropertyValueFactory<>("name"));
     }
 
     private void loadAll() throws Exception {
@@ -240,5 +252,12 @@ public class ReservationFormController {
 
 
         return true;
+    }
+
+    private void setUnpaidDetails(){
+        List<StudentDetailsDTO> unpaidStudents = reservationBO.getUnpaidStudents();
+        ObservableList<StudentDetailsDTO> studentDetailsDTOS=FXCollections.observableList(unpaidStudents);
+
+        tblStudentDetails.setItems(studentDetailsDTOS);
     }
 }
