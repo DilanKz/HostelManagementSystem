@@ -119,6 +119,12 @@ public class ReservationFormController {
 
                 loadAll();
                 setUnpaidDetails();
+
+                btnReserve.setDisable(true);
+                btnClear.setDisable(true);
+                btnCancel.setDisable(true);
+                btnNewRes.setDisable(false);
+
                 //clearFields();
             }else{
                 new Alert(Alert.AlertType.ERROR, "Error").show();

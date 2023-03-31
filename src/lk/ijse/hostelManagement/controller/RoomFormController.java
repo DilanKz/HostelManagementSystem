@@ -132,6 +132,8 @@ public class RoomFormController {
                 clearFields();
                 tblRooms.getItems().clear();
                 loadAllRooms();
+                btnCancel.setDisable(true);
+                btnAddRoom.setDisable(false);
             }else{
                 new Alert(Alert.AlertType.ERROR, "Error").show();
             }
@@ -157,6 +159,8 @@ public class RoomFormController {
                 clearFields();
                 tblRooms.getItems().clear();
                 loadAllRooms();
+                btnCancel.setDisable(true);
+                btnAddRoom.setDisable(false);
             }else{
                 new Alert(Alert.AlertType.ERROR, "Error").show();
             }

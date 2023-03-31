@@ -136,6 +136,9 @@ public class StudentFormController {
                 clearFields();
                 tblStudents.getItems().clear();
                 loadAllStudents();
+
+                btnCancel.setDisable(true);
+                btnAddStudent.setDisable(false);
             }else{
                 new Alert(Alert.AlertType.ERROR, "Error").show();
             }
@@ -163,6 +166,8 @@ public class StudentFormController {
                 clearFields();
                 tblStudents.getItems().clear();
                 loadAllStudents();
+                btnCancel.setDisable(true);
+                btnAddStudent.setDisable(false);
             }else{
                 new Alert(Alert.AlertType.ERROR, "Error").show();
             }
