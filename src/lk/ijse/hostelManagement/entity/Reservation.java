@@ -13,11 +13,11 @@ public class Reservation {
     @Column(name = "date")
     private Date date;
     @ManyToOne
-    @JoinColumn(name = "student_id",insertable = false ,updatable = false)
+    @JoinColumn(name = "student_id",nullable = false)
     private Student student;
 
     @ManyToOne
-    @JoinColumn(name = "room_type_id",updatable = false,insertable = false)
+    @JoinColumn(name = "room_type_id",nullable = false)
     private Room room;
 
     @Column(name = "status")

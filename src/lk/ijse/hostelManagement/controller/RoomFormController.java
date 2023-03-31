@@ -109,7 +109,7 @@ public class RoomFormController {
     void btnSaveOnAction(ActionEvent event) throws Exception{
         if (btnAdd.getText().equals("Save")){
             saveRoom();
-        }else{
+        }else if (btnAdd.getText().equals("Update")){
             updateRoom();
         }
     }
@@ -142,7 +142,7 @@ public class RoomFormController {
     private void updateRoom() throws Exception {
         boolean isValidate = checkValidation();
         if (isValidate){
-            boolean isSaved = roomsBO.saveRoom(
+            boolean isSaved = roomsBO.updateRoom(
                     new RoomDTO(
                             lblStudentID.getText(),
                             txtType.getText(),

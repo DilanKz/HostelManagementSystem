@@ -257,4 +257,29 @@ public class ReservationBOImpl implements ReservationBO {
             return null;
         }
     }
+
+    @Override
+    public boolean updateRoomQty(RoomDTO roomDTO) throws Exception {
+        session=SessionFactoryConfiguration.getInstance().getSession();
+        Transaction transaction = session.beginTransaction();
+
+        try {
+            roomsDAO.setSession(session);
+            roomsDAO.update(
+                    new Room(
+                            roomDTO.getId(),
+                            roomDTO.getType(),
+                            roomDTO.getKeyMoney(),
+                            roomDTO.getQty()
+                    )
+            );
+            transaction.commit();
+            session.close();
+            return true;
+        }catch (Exception e){
+            transaction.rollback();
+        }
+
+        return false;
+    }
 }

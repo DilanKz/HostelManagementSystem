@@ -24,7 +24,7 @@ public class Student {
     @Column(name = "gender")
     private String gender;
 
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "student")
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "student")
     private List<Reservation> reservationList;
 
     public Student() {

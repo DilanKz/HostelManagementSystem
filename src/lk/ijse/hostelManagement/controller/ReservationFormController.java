@@ -106,11 +106,11 @@ public class ReservationFormController {
 
     @FXML
     void btnReserveOnAction(ActionEvent event) throws Exception {
-        boolean isSaved = reservationBO.saveReservation(getData());
+        boolean isSaved = reserveARoom(getData());
         if (isSaved){
             new Alert(Alert.AlertType.CONFIRMATION, "Room Reserved").show();
-            /*tblResDetails.getItems().clear();
-            loadAll();*/
+            tblResDetails.getItems().clear();
+            loadAll();
             //clearFields();
         }else{
             new Alert(Alert.AlertType.ERROR, "Error").show();
@@ -128,11 +128,11 @@ public class ReservationFormController {
     @FXML
     void initialize() throws Exception{
         setCellFactory();
-        //loadAll();
+        loadAll();
     }
 
     private void setCellFactory(){
-        colReserveID.setCellValueFactory(new PropertyValueFactory<>("resID"));
+        colResID.setCellValueFactory(new PropertyValueFactory<>("resID"));
         colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
         colStudent.setCellValueFactory(new PropertyValueFactory<>("studentID"));
         colRoomTID.setCellValueFactory(new PropertyValueFactory<>("roomID"));
@@ -160,6 +160,9 @@ public class ReservationFormController {
     }
 
     private void setIds() throws Exception{
+        /*cmbGender.getItems().clear();
+        cmbGender1.getItems().clear();*/
+
         List<String> studentIds = reservationBO.getStudentIds();
         ObservableList<String> studentList= FXCollections.observableList(studentIds);
         cmbGender.setItems(studentList);
@@ -215,5 +218,27 @@ public class ReservationFormController {
                 roomData,
                 status
         );
+
+
+    }
+
+    private boolean reserveARoom(ReservationDTO reservationDTO) throws Exception {
+        boolean isSaved = reservationBO.saveReservation(reservationDTO);
+
+        if (!isSaved){
+            return false;
+        }
+
+        RoomDTO room = reservationDTO.getRoom();
+        room.setQty(room.getQty()-1);
+
+        boolean isUpdated = reservationBO.updateRoomQty(room);
+
+        if (!isUpdated){
+            return false;
+        }
+
+
+        return true;
     }
 }
