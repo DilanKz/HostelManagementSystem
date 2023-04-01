@@ -168,7 +168,6 @@ public class ReservationFormController {
         loadAll();
         setUnpaidDetails();
         getUnpaidStudent();
-
     }
 
     private void setCellFactory(){

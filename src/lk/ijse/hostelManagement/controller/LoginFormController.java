@@ -1,32 +1,61 @@
 package lk.ijse.hostelManagement.controller;
 
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.Pane;
-
+import com.jfoenix.controls.JFXButton;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.layout.Pane;
 
-public class LoginFormController implements Initializable {
-
-    @FXML
-    private FlowPane mainPane;
-
-    @FXML
-    private Pane detailPane;
+public class LoginFormController {
 
     @FXML
-    private Pane loginPane;
+    private ResourceBundle resources;
 
+    @FXML
+    private URL location;
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    @FXML
+    private JFXButton btnChngSign;
+
+    @FXML
+    private Pane signPane;
+
+    @FXML
+    private JFXButton btnSignUp;
+
+    @FXML
+    private Pane signInPane;
+
+    @FXML
+    private JFXButton btnSignIn;
+
+    @FXML
+    private JFXButton btnForgetPassword;
+
+    @FXML
+    void btnChangeSignOnAction(ActionEvent event) {
+        if(btnChngSign.getText().equals("Sign UP")){
+            btnChngSign.setText("Sign IN");
+
+            signInPane.setVisible(false);
+            signPane.setVisible(true);
+
+        }else if(btnChngSign.getText().equals("Sign IN")){
+            btnChngSign.setText("Sign UP");
+
+            signInPane.setVisible(true);
+            signPane.setVisible(false);
+        }
     }
 
-    public void mouseEnterEvent(MouseEvent mouseEvent) {
-        mainPane.setAlignment(Pos.BASELINE_RIGHT);
+    @FXML
+    void btnChangePassOnAction(ActionEvent event) {
+
+    }
+
+    @FXML
+    void initialize() {
+
     }
 }

@@ -16,7 +16,7 @@ public class Users {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "contactName")
+    @Column(name = "contactNo")
     private String contact;
 
     @Column(name = "accountType")
