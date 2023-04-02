@@ -16,8 +16,8 @@ public class Users {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "contactNo")
-    private String contact;
+    @Column(name = "email")
+    private String email;
 
     @Column(name = "accountType")
     private String type;
@@ -32,7 +32,7 @@ public class Users {
         this.id = id;
         this.userName = uName;
         this.password = password;
-        this.contact = contact;
+        this.email = contact;
         this.type = type;
         this.isEnabled = isEnabled;
     }
@@ -61,12 +61,12 @@ public class Users {
         this.password = password;
     }
 
-    public String getContact() {
-        return contact;
+    public String getEmail() {
+        return email;
     }
 
-    public void setContact(String contact) {
-        this.contact = contact;
+    public void setEmail(String contact) {
+        this.email = contact;
     }
 
     public String getType() {
@@ -91,7 +91,7 @@ public class Users {
                 "id='" + id + '\'' +
                 ", uName='" + userName + '\'' +
                 ", password='" + password + '\'' +
-                ", contact='" + contact + '\'' +
+                ", contact='" + email + '\'' +
                 ", type='" + type + '\'' +
                 ", isEnabled=" + isEnabled +
                 '}';

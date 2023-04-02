@@ -4,7 +4,6 @@ import lk.ijse.hostelManagement.bo.custom.UsersBO;
 import lk.ijse.hostelManagement.dao.DAOFactory;
 import lk.ijse.hostelManagement.dao.custom.UserDAO;
 import lk.ijse.hostelManagement.dto.UsersDTO;
-import lk.ijse.hostelManagement.entity.Student;
 import lk.ijse.hostelManagement.entity.Users;
 import lk.ijse.hostelManagement.util.SessionFactoryConfiguration;
 import org.hibernate.Session;
@@ -27,7 +26,7 @@ public class UsersBOImpl implements UsersBO {
                             users1.getId(),
                             users1.getUserName(),
                             users1.getPassword(),
-                            users1.getContact(),
+                            users1.getEmail(),
                             users1.getType(),
                             users1.isEnabled()
                     )
@@ -48,7 +47,7 @@ public class UsersBOImpl implements UsersBO {
                             usersDTO.getId(),
                             usersDTO.getUserName(),
                             usersDTO.getPassword(),
-                            usersDTO.getContact(),
+                            usersDTO.getEmail(),
                             usersDTO.getType(),
                             usersDTO.isEnabled()
                     )
@@ -74,7 +73,7 @@ public class UsersBOImpl implements UsersBO {
                             usersDTO.getId(),
                             usersDTO.getUserName(),
                             usersDTO.getPassword(),
-                            usersDTO.getContact(),
+                            usersDTO.getEmail(),
                             usersDTO.getType(),
                             usersDTO.isEnabled()
                     )
@@ -100,7 +99,7 @@ public class UsersBOImpl implements UsersBO {
                             usersDTO.getId(),
                             usersDTO.getUserName(),
                             usersDTO.getPassword(),
-                            usersDTO.getContact(),
+                            usersDTO.getEmail(),
                             usersDTO.getType(),
                             usersDTO.isEnabled()
                     )

@@ -5,7 +5,7 @@ public class UsersDTO {
     private String id;
     private String userName;
     private String password;
-    private String contact;
+    private String email;
     private String type;
     private boolean isEnabled;
 
@@ -16,7 +16,7 @@ public class UsersDTO {
         this.id = id;
         this.userName = userName;
         this.password = password;
-        this.contact = contact;
+        this.email = contact;
         this.type = type;
         this.isEnabled = isEnabled;
     }
@@ -45,12 +45,12 @@ public class UsersDTO {
         this.password = password;
     }
 
-    public String getContact() {
-        return contact;
+    public String getEmail() {
+        return email;
     }
 
-    public void setContact(String contact) {
-        this.contact = contact;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getType() {
