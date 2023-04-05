@@ -24,6 +24,7 @@ public class UsersBOImpl implements UsersBO {
             usersDTOS.add(
                     new UsersDTO(
                             users1.getId(),
+                            users1.getName(),
                             users1.getUserName(),
                             users1.getPassword(),
                             users1.getEmail(),
@@ -38,26 +39,6 @@ public class UsersBOImpl implements UsersBO {
 
     @Override
     public boolean saveUsers(UsersDTO usersDTO) throws Exception {
-        session=SessionFactoryConfiguration.getInstance().getSession();
-        Transaction transaction = session.beginTransaction();
-        try{
-            userDAO.setSession(session);
-            userDAO.save(
-                    new Users(
-                            usersDTO.getId(),
-                            usersDTO.getUserName(),
-                            usersDTO.getPassword(),
-                            usersDTO.getEmail(),
-                            usersDTO.getType(),
-                            usersDTO.isEnabled()
-                    )
-            );
-            transaction.commit();
-            session.close();
-        }catch (Exception e){
-            transaction.rollback();
-        }
-
         return false;
     }
 
@@ -71,6 +52,7 @@ public class UsersBOImpl implements UsersBO {
             userDAO.update(
                     new Users(
                             usersDTO.getId(),
+                            usersDTO.getName(),
                             usersDTO.getUserName(),
                             usersDTO.getPassword(),
                             usersDTO.getEmail(),
@@ -97,6 +79,7 @@ public class UsersBOImpl implements UsersBO {
             userDAO.delete(
                     new Users(
                             usersDTO.getId(),
+                            usersDTO.getName(),
                             usersDTO.getUserName(),
                             usersDTO.getPassword(),
                             usersDTO.getEmail(),

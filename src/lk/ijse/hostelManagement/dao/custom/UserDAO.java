@@ -6,4 +6,6 @@ import org.hibernate.Session;
 
 public interface UserDAO extends CrudDAO<Users> {
     void setSession(Session session) throws Exception;
+
+    Users getUsers(String userName);
 }

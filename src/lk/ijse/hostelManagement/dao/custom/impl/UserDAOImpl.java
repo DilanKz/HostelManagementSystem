@@ -1,9 +1,7 @@
 package lk.ijse.hostelManagement.dao.custom.impl;
 
 import lk.ijse.hostelManagement.dao.custom.UserDAO;
-import lk.ijse.hostelManagement.entity.Room;
 import lk.ijse.hostelManagement.entity.Users;
-import lk.ijse.hostelManagement.util.SessionFactoryConfiguration;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
@@ -43,7 +41,7 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public String generateID() throws Exception {
 
-            String sqlQuery="FROM Reservation ORDER BY id DESC";
+            String sqlQuery="FROM Users ORDER BY id DESC";
             Query query = session.createQuery(sqlQuery);
             query.setMaxResults(1);
             Users users = (Users) query.uniqueResult();
@@ -59,5 +57,15 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public void setSession(Session session) throws Exception {
         this.session=session;
+    }
+
+    @Override
+    public Users getUsers(String userName) {
+        String hql="from Users where userName=:un";
+        Query query = session.createQuery(hql);
+        query.setParameter("un",userName);
+        Users users = (Users) query.uniqueResult();
+
+        return users;
     }
 }

@@ -72,7 +72,6 @@ public class ReservationDAOImpl implements ReservationDAO {
         query.setParameter("sts",paidStatus);
         query.setParameter("rid",reserveId);
         int count = query.executeUpdate();
-
         return count >= 0;
     }
 }

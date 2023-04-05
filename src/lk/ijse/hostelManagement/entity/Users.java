@@ -10,6 +10,9 @@ public class Users {
     @Column(length = 10,name = "userId")
     private String id;
 
+    @Column(name = "name")
+    private String name;
+
     @Column(name = "username")
     private String userName;
 
@@ -37,12 +40,30 @@ public class Users {
         this.isEnabled = isEnabled;
     }
 
+    public Users(String id, String name, String userName, String password, String email, String type, boolean isEnabled) {
+        this.id = id;
+        this.name = name;
+        this.userName = userName;
+        this.password = password;
+        this.email = email;
+        this.type = type;
+        this.isEnabled = isEnabled;
+    }
+
     public String getId() {
         return id;
     }
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getUserName() {

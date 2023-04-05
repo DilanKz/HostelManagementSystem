@@ -11,7 +11,7 @@ public class Navigation {
     public static Stage stage;
 
     public enum Routes{
-        Student,Rooms,Reservation,Login
+        Student,Rooms,Reservation,Login,TwoStep,NewPassword
     }
 
     public static void navigate(Routes route, AnchorPane pane) throws IOException {
@@ -22,9 +22,6 @@ public class Navigation {
         stage.setFullScreenExitHint("");
 
         switch (route){
-            case Login :
-                initUI("");
-                break;
             case Student:
                 initUI("/lk/ijse/hostelManagement/view/StudentForm.fxml");
                 break;

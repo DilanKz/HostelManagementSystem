@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane pickOnBounds="false" prefHeight="361.0" prefWidth="622.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.hostelManagement.controller.TwoFactorFormController">
+   <children>
+      <JFXButton fx:id="btnConfirm" layoutX="508.0" layoutY="324.0" onAction="#btnConfirmOnAction" style="-fx-background-color: #0c45ff;" text="Confirm" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </JFXButton>
+      <Label fx:id="lblMain" layoutX="52.0" layoutY="44.0" text="Verify your email ">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="52.0" layoutY="84.0" text="We have sent a verification code to your Email address" />
+      <JFXTextField fx:id="txt1" focusColor="#4f77ee" layoutX="144.0" layoutY="183.0" onKeyReleased="#txt1Key" prefHeight="31.0" prefWidth="45.0" unFocusColor="#c9c4c4">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </JFXTextField>
+      <JFXTextField fx:id="txt2" focusColor="#4f77ee" layoutX="199.0" layoutY="183.0" onKeyReleased="#txt2Key" prefHeight="30.0" prefWidth="45.0" unFocusColor="#c9c4c4">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </JFXTextField>
+      <JFXTextField fx:id="txt3" focusColor="#4f77ee" layoutX="256.0" layoutY="183.0" onKeyReleased="#txt3Key" prefHeight="30.0" prefWidth="45.0" unFocusColor="#c9c4c4">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </JFXTextField>
+      <JFXTextField fx:id="txt4" focusColor="#4f77ee" layoutX="312.0" layoutY="183.0" onKeyReleased="#txt4Key" prefHeight="30.0" prefWidth="45.0" unFocusColor="#c9c4c4">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </JFXTextField>
+      <JFXTextField fx:id="txt5" focusColor="#4f77ee" layoutX="369.0" layoutY="183.0" onKeyReleased="#txt5Key" prefHeight="30.0" prefWidth="45.0" unFocusColor="#c9c4c4">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </JFXTextField>
+      <JFXTextField fx:id="txt6" focusColor="#4f77ee" layoutX="429.0" layoutY="183.0" onKeyReleased="#txt6Key" prefHeight="30.0" prefWidth="45.0" unFocusColor="#c9c4c4">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </JFXTextField>
+      <Label layoutX="26.0" layoutY="315.0" text="It may take a minute to receive your code">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <Label layoutX="26.0" layoutY="334.0" text="Haven't received it ?">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <Label layoutX="146.0" layoutY="334.0" onMouseClicked="#lblNewCodeClicked" text="Resend a new code." textFill="#0c45ff">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

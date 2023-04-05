@@ -1,9 +1,6 @@
 package lk.ijse.hostelManagement.bo;
 
-import lk.ijse.hostelManagement.bo.custom.impl.ReservationBOImpl;
-import lk.ijse.hostelManagement.bo.custom.impl.RoomsBOImpl;
-import lk.ijse.hostelManagement.bo.custom.impl.StudentBOImpl;
-import lk.ijse.hostelManagement.bo.custom.impl.UsersBOImpl;
+import lk.ijse.hostelManagement.bo.custom.impl.*;
 import lk.ijse.hostelManagement.dao.SuperDAO;
 import lk.ijse.hostelManagement.dao.custom.impl.ReservationDAOImpl;
 import lk.ijse.hostelManagement.dao.custom.impl.RoomsDAOImpl;
@@ -24,7 +21,7 @@ public class BOFactory {
     }
 
     public enum BOTypes {
-        Student,Rooms,Reservation,Users
+        Student,Rooms,Reservation,Users,Login
     }
 
 
@@ -38,6 +35,8 @@ public class BOFactory {
                 return new ReservationBOImpl();
             case Users:
                 return new UsersBOImpl();
+            case Login:
+                return new LoginBOImpl();
             default:
                 return null;
         }
