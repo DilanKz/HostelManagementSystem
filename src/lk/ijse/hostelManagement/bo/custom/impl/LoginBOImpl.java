@@ -43,6 +43,34 @@ public class LoginBOImpl implements LoginBO {
     }
 
     @Override
+    public boolean updateUsers(UsersDTO usersDTO) throws Exception {
+        session=SessionFactoryConfiguration.getInstance().getSession();
+        Transaction transaction = session.beginTransaction();
+
+        try {
+            userDAO.setSession(session);
+            userDAO.update(
+                    new Users(
+                            usersDTO.getId(),
+                            usersDTO.getName(),
+                            usersDTO.getUserName(),
+                            usersDTO.getPassword(),
+                            usersDTO.getEmail(),
+                            usersDTO.getType(),
+                            usersDTO.isEnabled()
+                    )
+            );
+            transaction.commit();
+            session.close();
+            return true;
+        }catch (Exception e){
+            transaction.rollback();
+        }
+
+        return false;
+    }
+
+    @Override
     public UsersDTO getUsersDto(String userName) throws Exception {
         session=SessionFactoryConfiguration.getInstance().getSession();
         userDAO.setSession(session);

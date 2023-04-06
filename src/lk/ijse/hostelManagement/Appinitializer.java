@@ -19,7 +19,7 @@ public class Appinitializer extends Application {
 
             Session session=SessionFactoryConfiguration.getInstance().getSession();
 
-            Parent window = FXMLLoader.load(this.getClass().getResource("view/ChangePasswordForm.fxml"));
+            Parent window = FXMLLoader.load(this.getClass().getResource("view/LoginForm.fxml"));
             Scene scene = new Scene(window);
             stage.setScene(scene);
             stage.setTitle("Login Form");

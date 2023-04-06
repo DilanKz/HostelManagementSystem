@@ -62,6 +62,7 @@ public class UsersBOImpl implements UsersBO {
             );
             transaction.commit();
             session.close();
+            return true;
         }catch (Exception e){
             transaction.rollback();
         }

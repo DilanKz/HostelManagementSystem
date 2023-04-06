@@ -14,8 +14,11 @@ import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import lk.ijse.hostelManagement.util.Navigation;
 
@@ -54,6 +57,24 @@ public class MainFormController {
         //Navigation.navigate(Navigation.Routes.Student,scenePane);
         scenePane.getChildren().add(FXMLLoader.load(Navigation.class.getResource("/lk/ijse/hostelManagement/view/StudentForm.fxml")));
 
+    }
+
+
+    @FXML
+    void btnUserSettingsOnAction(ActionEvent actionEvent) {
+    }
+
+    @FXML
+    void btnLogOutOnAction(ActionEvent actionEvent) throws IOException {
+        Navigation.stage.close();
+
+        Stage stage=new Stage();
+        Parent window = FXMLLoader.load(this.getClass().getResource("../view/LoginForm.fxml"));
+        Scene scene = new Scene(window);
+        stage.setScene(scene);
+        stage.setTitle("Login Form");
+        stage.centerOnScreen();
+        stage.show();
     }
 
     @FXML

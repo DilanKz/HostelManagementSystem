@@ -31,7 +31,7 @@ import javax.mail.internet.MimeMessage;
 public class TwoFactorFormController {
 
     public JFXButton btnConfirm;
-    public Stage stage;
+    public static Stage stage;
     @FXML
     private Label lblMain;
 
@@ -66,20 +66,25 @@ public class TwoFactorFormController {
     public static String place;
 
     private UsersDTO usersDTO;
-
     LoginBO loginBO= (LoginBO) BOFactory.getInstance().getBO(BOFactory.BOTypes.Login);
     @FXML
     void btnConfirmOnAction(ActionEvent event) throws Exception {
         String finalNumber = txt1.getText() + txt2.getText()+ txt3.getText()+ txt4.getText()+ txt5.getText()+ txt6.getText();
-        if (lblMain.getText().equals("Verify your email ")){
+        if (place.equals("NewUser")){
             if (finalNumber.equals(randomNumber)){
-
-                System.out.println(randomNumber);
-                System.out.println(finalNumber);
                 System.out.println(usersDTO);
 
-                LoginFormController.stage.close();
                 loginBO.saveUsers(usersDTO);
+
+                LoginFormController.stage.close();
+            }
+        }else if (place.equals("PassChange")){
+            if (finalNumber.equals(randomNumber)){
+
+                ChangePasswordFormController.usersDTO=usersDTO;
+                setWindow();
+
+                LoginFormController.stage.close();
             }
         }
     }
@@ -178,6 +183,16 @@ public class TwoFactorFormController {
     public void setUser(UsersDTO usersDTO) {
         this.usersDTO=usersDTO;
         System.out.println(usersDTO);
+    }
+
+    private void setWindow() throws IOException {
+        stage=new Stage();
+        Parent window = FXMLLoader.load(this.getClass().getResource("../view/ChangePasswordForm.fxml"));
+        Scene scene = new Scene(window);
+        stage.setScene(scene);
+        stage.setTitle("Login Form");
+        stage.centerOnScreen();
+        stage.show();
     }
 
 }

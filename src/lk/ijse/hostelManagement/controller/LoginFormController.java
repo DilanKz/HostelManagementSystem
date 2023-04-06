@@ -115,12 +115,27 @@ public class LoginFormController {
     }
 
     @FXML
-    void btnChangePassOnAction(ActionEvent event) throws IOException {
-        String userName = txtInUName.getText();
-        if (userName.length()>12){
+    void btnChangePassOnAction(ActionEvent event){
+        try {
+            if (txtInUName.getText()!=null){
+                UsersDTO usersDto = loginBO.getUsersDto(txtInUName.getText());
+                System.out.println(usersDto);
 
-        }else{
+                email= usersDto.getEmail();
+                TwoFactorFormController.place="PassChange";
+
+                makeWindow();
+
+                TwoFactorFormController twoFactorFormController=loader.getController();
+                twoFactorFormController.setUser(usersDto);
+
+            }else{
+                txtInUName.requestFocus();
+                lblCurrentStatus.setText("* Wrong username");
+            }
+        }catch (Exception e){
             txtInUName.requestFocus();
+            lblCurrentStatus.setText("* Wrong username");
         }
     }
 
@@ -171,6 +186,7 @@ public class LoginFormController {
                 accountStatus=true;
                 accountType="Admin";
             }
+            TwoFactorFormController.place="NewUser";
             email=txtEmail.getText();
             UsersDTO usersDTO = new UsersDTO(
                     id,
@@ -267,19 +283,23 @@ public class LoginFormController {
         try {
             UsersDTO usersDto = loginBO.getUsersDto(txtInUName.getText());
             if (usersDto!=null){
+                lblCurrentStatus.setText("");
                 if (usersDto.getPassword().equals(txtInPass.getText())){
+                    lblCurrentStatus.setText("");
+                    if (usersDto.isEnabled()==true){
+                        Appinitializer.stage.close();
 
-                    Appinitializer.stage.close();
-
-                    stage=new Stage();
-                    Parent window = FXMLLoader.load(this.getClass().getResource("../view/MainForm.fxml"));
-                    Scene scene = new Scene(window);
-                    stage.setScene(scene);
-                    stage.setTitle("Login Form");
-                    stage.setFullScreen(true);
-                    stage.setFullScreenExitHint("");
-                    stage.show();
-                    stage.centerOnScreen();
+                        stage=new Stage();
+                        Parent window = FXMLLoader.load(this.getClass().getResource("../view/MainForm.fxml"));
+                        Scene scene = new Scene(window);
+                        stage.setScene(scene);
+                        stage.setTitle("Login Form");
+                        stage.setFullScreen(true);
+                        stage.setFullScreenExitHint("");
+                        stage.show();
+                    }else {
+                        lblCurrentStatus.setText("* your account is not activated at the moment");
+                    }
                 }else {
                     //wrong password
                     lblCurrentStatus.setText("* wrong password");
