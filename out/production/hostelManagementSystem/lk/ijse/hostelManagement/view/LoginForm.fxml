@@ -69,5 +69,71 @@
             <JFXTextField fx:id="txtShowPass" labelFloat="true" layoutX="93.0" layoutY="320.0" prefHeight="31.0" prefWidth="299.0" promptText="Password" unFocusColor="#4059a9" visible="false" />
             <Label fx:id="lblCurrentStatus" layoutX="93.0" layoutY="372.0" prefHeight="21.0" prefWidth="315.0" textAlignment="CENTER" textFill="RED" />
          </children></Pane>
+      <Pane fx:id="loadingBackgroundPane" opacity="0.6" prefHeight="600.0" prefWidth="850.0" style="-fx-background-color: black;" visible="false" />
+      <AnchorPane fx:id="twoStepPane" layoutX="120.0" layoutY="111.0" pickOnBounds="false" prefHeight="361.0" prefWidth="622.0" style="-fx-background-color: ffffff;" visible="false">
+         <children>
+            <JFXButton fx:id="btnConfirm" layoutX="508.0" layoutY="324.0" onAction="#btnConfirmOnAction" style="-fx-background-color: #0c45ff;" text="Confirm" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </JFXButton>
+            <Label fx:id="lblMain" layoutX="52.0" layoutY="44.0" text="Verify your email ">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="52.0" layoutY="84.0" text="We have sent a verification code to your Email address" />
+            <JFXTextField fx:id="txt1" focusColor="#4f77ee" layoutX="144.0" layoutY="183.0" onKeyReleased="#txt1Key" prefHeight="31.0" prefWidth="45.0" unFocusColor="#c9c4c4">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </JFXTextField>
+            <JFXTextField fx:id="txt2" focusColor="#4f77ee" layoutX="199.0" layoutY="183.0" onKeyReleased="#txt2Key" prefHeight="30.0" prefWidth="45.0" unFocusColor="#c9c4c4">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </JFXTextField>
+            <JFXTextField fx:id="txt3" focusColor="#4f77ee" layoutX="256.0" layoutY="183.0" onKeyReleased="#txt3Key" prefHeight="30.0" prefWidth="45.0" unFocusColor="#c9c4c4">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </JFXTextField>
+            <JFXTextField fx:id="txt4" focusColor="#4f77ee" layoutX="312.0" layoutY="183.0" onKeyReleased="#txt4Key" prefHeight="30.0" prefWidth="45.0" unFocusColor="#c9c4c4">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </JFXTextField>
+            <JFXTextField fx:id="txt5" focusColor="#4f77ee" layoutX="369.0" layoutY="183.0" onKeyReleased="#txt5Key" prefHeight="30.0" prefWidth="45.0" unFocusColor="#c9c4c4">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </JFXTextField>
+            <JFXTextField fx:id="txt6" focusColor="#4f77ee" layoutX="429.0" layoutY="183.0" onKeyReleased="#txt6Key" prefHeight="30.0" prefWidth="45.0" unFocusColor="#c9c4c4">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </JFXTextField>
+            <Label layoutX="26.0" layoutY="315.0" text="It may take a minute to receive your code">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+            <Label layoutX="26.0" layoutY="334.0" text="Haven't received it ?">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+            <Label layoutX="146.0" layoutY="334.0" onMouseClicked="#lblNewCodeClicked" text="Resend a new code." textFill="#0c45ff">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+            <JFXButton fx:id="btnClose" layoutX="591.0" layoutY="1.0" onAction="#btnCloseOnAction" prefHeight="31.0" prefWidth="0.0" text=" ">
+               <font>
+                  <Font name="Bodoni MT" size="15.0" />
+               </font>
+            </JFXButton>
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

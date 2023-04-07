@@ -4,6 +4,8 @@ import com.jfoenix.controls.JFXButton;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Properties;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXPasswordField;
@@ -16,6 +18,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.SVGPath;
 import javafx.stage.Modality;
@@ -26,12 +30,41 @@ import lk.ijse.hostelManagement.bo.BOFactory;
 import lk.ijse.hostelManagement.bo.custom.LoginBO;
 import lk.ijse.hostelManagement.dto.UsersDTO;
 
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
 import static com.sun.org.apache.xml.internal.security.keys.keyresolver.KeyResolver.length;
 
 public class LoginFormController {
 
-    public SVGPath svgPassEye;
-    public Label lblCurrentStatus;
+    @FXML
+    private SVGPath svgPassEye;
+    @FXML
+    private Label lblCurrentStatus;
+    @FXML
+    private JFXButton btnClose;
+    @FXML
+    private Pane loadingBackgroundPane;
+    @FXML
+    private JFXButton btnConfirm;
+    @FXML
+    private Label lblMain;
+    @FXML
+    private JFXTextField txt1;
+    @FXML
+    private JFXTextField txt2;
+    @FXML
+    private JFXTextField txt3;
+    @FXML
+    private JFXTextField txt4;
+    @FXML
+    private JFXTextField txt5;
+    @FXML
+    private JFXTextField txt6;
+    @FXML
+    private AnchorPane twoStepPane;
+
     @FXML
     private ResourceBundle resources;
 
@@ -97,6 +130,10 @@ public class LoginFormController {
 
     public static String email;
 
+    String randomNumber;
+    String place;
+    private UsersDTO usersDTO;
+
     private LoginBO loginBO= (LoginBO) BOFactory.getInstance().getBO(BOFactory.BOTypes.Login);
     @FXML
     void btnChangeSignOnAction(ActionEvent event) {
@@ -119,15 +156,15 @@ public class LoginFormController {
         try {
             if (txtInUName.getText()!=null){
                 UsersDTO usersDto = loginBO.getUsersDto(txtInUName.getText());
-                System.out.println(usersDto);
+                usersDTO=usersDto;
+                place="PassChange";
 
-                email= usersDto.getEmail();
-                TwoFactorFormController.place="PassChange";
+                ChangePasswordFormController.usersDTO=usersDto;
 
-                makeWindow();
-
-                TwoFactorFormController twoFactorFormController=loader.getController();
-                twoFactorFormController.setUser(usersDto);
+                loadingBackgroundPane.setVisible(true);
+                twoStepPane.setVisible(true);
+                makeCode();
+                sentEmail(randomNumber, usersDto.getEmail());
 
             }else{
                 txtInUName.requestFocus();
@@ -186,9 +223,9 @@ public class LoginFormController {
                 accountStatus=true;
                 accountType="Admin";
             }
-            TwoFactorFormController.place="NewUser";
+            place="NewUser";
             email=txtEmail.getText();
-            UsersDTO usersDTO = new UsersDTO(
+            UsersDTO usersDto = new UsersDTO(
                     id,
                     txtName.getText(),
                     txtUname.getText(),
@@ -198,11 +235,13 @@ public class LoginFormController {
                     accountStatus
             );
 
-            makeWindow();
+            usersDTO=usersDto;
 
-            TwoFactorFormController twoFactorFormController=loader.getController();
-            //System.out.println(twoFactorFormController);
-            twoFactorFormController.setUser(usersDTO);
+            loadingBackgroundPane.setVisible(true);
+            twoStepPane.setVisible(true);
+            makeCode();
+            sentEmail(randomNumber, usersDto.getEmail());
+
         } else {
             System.out.println("Not Working yet");
         }
@@ -259,16 +298,6 @@ public class LoginFormController {
         return true;
     }
 
-    public void makeWindow() throws IOException {
-
-        stage=new Stage();
-        Parent root= loader.load();
-        stage.setScene(new Scene(root));
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.initStyle(StageStyle.UTILITY);
-        stage.initOwner(Appinitializer.stage);
-        stage.show();
-    }
 
     private void clearFields(){
         txtName.clear();
@@ -287,6 +316,7 @@ public class LoginFormController {
                 if (usersDto.getPassword().equals(txtInPass.getText())){
                     lblCurrentStatus.setText("");
                     if (usersDto.isEnabled()==true){
+
                         Appinitializer.stage.close();
 
                         stage=new Stage();
@@ -297,6 +327,7 @@ public class LoginFormController {
                         stage.setFullScreen(true);
                         stage.setFullScreenExitHint("");
                         stage.show();
+
                     }else {
                         lblCurrentStatus.setText("* your account is not activated at the moment");
                     }
@@ -310,5 +341,126 @@ public class LoginFormController {
             txtInUName.requestFocus();
             //e.printStackTrace();
         }
+    }
+//Methods for Two-step verification
+    @FXML
+    void btnCloseOnAction(ActionEvent actionEvent) {
+        loadingBackgroundPane.setVisible(false);
+        twoStepPane.setVisible(false);
+    }
+
+
+    @FXML
+    void btnConfirmOnAction(ActionEvent event) throws Exception {
+        String finalNumber = txt1.getText() + txt2.getText()+ txt3.getText()+ txt4.getText()+ txt5.getText()+ txt6.getText();
+        if (place.equals("NewUser")){
+            if (finalNumber.equals(randomNumber)){
+
+                loginBO.saveUsers(usersDTO);
+                loadingBackgroundPane.setVisible(false);
+                twoStepPane.setVisible(false);
+                clearFields();
+            }
+        }else if (place.equals("PassChange")){
+            if (finalNumber.equals(randomNumber)){
+                txtInUName.clear();
+                ChangePasswordFormController.usersDTO=usersDTO;
+                setWindow();
+
+                LoginFormController.stage.close();
+            }
+        }
+    }
+
+    @FXML
+    void lblNewCodeClicked(MouseEvent event) {
+
+        makeCode();
+        sentEmail(randomNumber,email);
+    }
+
+
+    @FXML
+    void txt1Key(KeyEvent event) {
+        txt2.requestFocus();
+    }
+
+    @FXML
+    void txt2Key(KeyEvent event) {
+        txt3.requestFocus();
+    }
+
+    @FXML
+    void txt3Key(KeyEvent event) {
+        txt4.requestFocus();
+    }
+
+    @FXML
+    void txt4Key(KeyEvent event) {
+        txt5.requestFocus();
+    }
+
+    @FXML
+    void txt5Key(KeyEvent event) {
+        txt6.requestFocus();
+    }
+
+    @FXML
+    void txt6Key(KeyEvent event) {
+        btnConfirm.fire();
+    }
+
+    private void makeCode(){
+        // It will generate 6 digit random Number.
+        // from 0 to 999999
+        Random rnd = new Random();
+        int number= rnd.nextInt(999999);
+
+        // this will convert any number sequence into 6 character.
+        randomNumber = String.format("%06d", number);
+    }
+
+    private void sentEmail(String code,String email){
+        final String username = "falonh45@gmail.com";
+        final String password = "huxs xfzr muoh urzm";
+
+        Properties props = new Properties();
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+
+        Session session = Session.getInstance(props,
+                new javax.mail.Authenticator() {
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(username, password);
+                    }
+                });
+
+        try {
+
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress("falonh45@gmail.com"));
+            message.setRecipients(Message.RecipientType.TO,
+                    InternetAddress.parse(email));
+            message.setSubject("Verification code");
+            message.setText("This is your verification code "+code);
+
+            Transport.send(message);
+
+            System.out.println("Done");
+
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    private void setWindow() throws IOException {
+        stage=new Stage();
+        Parent window = FXMLLoader.load(this.getClass().getResource("../view/ChangePasswordForm.fxml"));
+        Scene scene = new Scene(window);
+        stage.setScene(scene);
+        stage.setTitle("Login Form");
+        stage.centerOnScreen();
+        stage.show();
     }
 }
