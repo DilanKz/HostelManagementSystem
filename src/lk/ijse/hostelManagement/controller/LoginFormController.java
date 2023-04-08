@@ -165,6 +165,7 @@ public class LoginFormController {
                 twoStepPane.setVisible(true);
                 makeCode();
                 sentEmail(randomNumber, usersDto.getEmail());
+                //Mail.getInstance().sentMail(randomNumber, usersDTO.getEmail());
 
             }else{
                 txtInUName.requestFocus();
@@ -237,10 +238,13 @@ public class LoginFormController {
 
             usersDTO=usersDto;
 
+            UserSettingsFormController.usersDTO=usersDto;
+
             loadingBackgroundPane.setVisible(true);
             twoStepPane.setVisible(true);
             makeCode();
             sentEmail(randomNumber, usersDto.getEmail());
+            //Mail.getInstance().sentMail(randomNumber, usersDto.getEmail());
 
         } else {
             System.out.println("Not Working yet");
@@ -313,11 +317,15 @@ public class LoginFormController {
             UsersDTO usersDto = loginBO.getUsersDto(txtInUName.getText());
             if (usersDto!=null){
                 lblCurrentStatus.setText("");
-                if (usersDto.getPassword().equals(txtInPass.getText())){
+                System.out.println(usersDto);
+                if (usersDto.getPassword().equals(txtInPass.getText())||usersDto.getPassword().equals(txtShowPass.getText())){
                     lblCurrentStatus.setText("");
                     if (usersDto.isEnabled()==true){
 
                         Appinitializer.stage.close();
+
+
+                        UserSettingsFormController.usersDTO=usersDto;
 
                         stage=new Stage();
                         Parent window = FXMLLoader.load(this.getClass().getResource("../view/MainForm.fxml"));
@@ -367,7 +375,10 @@ public class LoginFormController {
                 ChangePasswordFormController.usersDTO=usersDTO;
                 setWindow();
 
-                LoginFormController.stage.close();
+                loadingBackgroundPane.setVisible(false);
+                twoStepPane.setVisible(false);
+
+                //LoginFormController.stage.close();
             }
         }
     }
@@ -421,8 +432,11 @@ public class LoginFormController {
     }
 
     private void sentEmail(String code,String email){
-        final String username = "falonh45@gmail.com";
-        final String password = "huxs xfzr muoh urzm";
+        final String username = "narada5382@gmail.com";
+        final String password = "jozc eaoi taxc vqwm";
+
+        /*final String username = "falonh45@gmail.com";
+        final String password = "tarj qxjg drtb kcmw";*/
 
         Properties props = new Properties();
         props.put("mail.smtp.starttls.enable", "true");
@@ -451,8 +465,9 @@ public class LoginFormController {
             System.out.println("Done");
 
         } catch (MessagingException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
+
     }
     private void setWindow() throws IOException {
         stage=new Stage();

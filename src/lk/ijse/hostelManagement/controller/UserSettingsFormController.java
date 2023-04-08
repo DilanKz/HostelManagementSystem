@@ -9,10 +9,14 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import lk.ijse.hostelManagement.bo.BOFactory;
+import lk.ijse.hostelManagement.bo.custom.UsersBO;
 import lk.ijse.hostelManagement.dto.UsersDTO;
 
 import javax.mail.*;
@@ -22,11 +26,37 @@ import javax.mail.internet.MimeMessage;
 public class UserSettingsFormController {
 
     @FXML
+    private Pane paneAdmin;
+    @FXML
+    private TableView tblAllUsers;
+    @FXML
+    private TableColumn colName;
+    @FXML
+    private TableColumn colUName;
+    @FXML
+    private TableColumn ColEmail;
+    @FXML
+    private JFXButton btnActivate;
+    @FXML
+    private JFXButton btnDelete;
+    @FXML
+    private JFXButton btnEdit;
+    @FXML
+    private JFXButton btnUpdate;
+    @FXML
+    private Pane paneUser;
+    @FXML
+    private TableView tblHistory;
+    @FXML
+    private TableColumn colTime;
+    @FXML
+    private TableColumn ColDetails;
+
+    @FXML
     private ResourceBundle resources;
 
     @FXML
     private URL location;
-
     @FXML
     private AnchorPane TwoStepPane;
 
@@ -63,6 +93,8 @@ public class UserSettingsFormController {
     String randomNumber;
 
     public static UsersDTO usersDTO;
+
+    UsersBO usersBO= (UsersBO) BOFactory.getInstance().getBO(BOFactory.BOTypes.Users);
 
     @FXML
     void btnCloseOnAction(ActionEvent event) {
@@ -116,12 +148,23 @@ public class UserSettingsFormController {
 
     @FXML
     void initialize() {
-        sentEmail(makeCode(),usersDTO.getEmail());
+        if (usersDTO.getType().equals("Admin")){
+
+            paneUser.setVisible(false);
+            paneAdmin.setVisible(true);
+
+        }else if (usersDTO.getType().equals("user")){
+
+            paneUser.setVisible(true);
+            paneAdmin.setVisible(false);
+
+        }
+        //sentEmail(makeCode(),usersDTO.getEmail());
     }
 
     private void sentEmail(String code,String email){
         final String username = "falonh45@gmail.com";
-        final String password = "huxs xfzr muoh urzm";
+        final String password = "tarj qxjg drtb kcmw";
 
         Properties props = new Properties();
         props.put("mail.smtp.starttls.enable", "true");
@@ -163,5 +206,26 @@ public class UserSettingsFormController {
         // this will convert any number sequence into 6 character.
         randomNumber=String.format("%06d", number);
         return randomNumber;
+    }
+
+    @FXML
+    void btnEditOnAction(ActionEvent actionEvent) {
+        loadingPane.setVisible(true);
+        TwoStepPane.setVisible(true);
+    }
+
+    @FXML
+    void btnUpdateOnAction(ActionEvent actionEvent) {
+        //usersBO.updateUsers();
+    }
+
+    @FXML
+    void btnActivateOnAction(ActionEvent actionEvent) {
+        //usersBO.deleteUsers();
+    }
+
+    @FXML
+    void btnDeleteOnAction(ActionEvent actionEvent) {
+        //usersBO.deleteUsers();
     }
 }

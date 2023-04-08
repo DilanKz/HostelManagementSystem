@@ -61,7 +61,17 @@ public class MainFormController {
 
 
     @FXML
-    void btnUserSettingsOnAction(ActionEvent actionEvent) {
+    void btnUserSettingsOnAction(ActionEvent actionEvent) throws IOException {
+        Stage stage=new Stage();
+
+        Parent window = FXMLLoader.load(this.getClass().getResource("../view/UserSettingsForm.fxml"));
+        Scene scene = new Scene(window);
+        stage.setScene(scene);
+        stage.initOwner(Navigation.stage);
+        stage.setTitle("User Setting");
+        stage.centerOnScreen();
+        stage.show();
+
     }
 
     @FXML
