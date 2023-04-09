@@ -8,4 +8,6 @@ public interface UserDAO extends CrudDAO<Users> {
     void setSession(Session session) throws Exception;
 
     Users getUsers(String userName);
+
+    boolean activateUser(String id);
 }

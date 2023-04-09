@@ -3,14 +3,20 @@ package lk.ijse.hostelManagement.controller;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
+import java.util.List;
 import java.util.Properties;
 import java.util.Random;
 import java.util.ResourceBundle;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -26,15 +32,27 @@ import javax.mail.internet.MimeMessage;
 public class UserSettingsFormController {
 
     @FXML
+    private TextField txtName;
+
+    @FXML
+    private TextField txtUserName;
+
+    @FXML
+    private TextField txtEmail;
+
+    @FXML
+    private TextField txtPasswordName;
+
+    @FXML
     private Pane paneAdmin;
     @FXML
-    private TableView tblAllUsers;
+    private TableView<UsersDTO> tblAllUsers;
     @FXML
-    private TableColumn colName;
+    private TableColumn<UsersDTO,String> colName;
     @FXML
-    private TableColumn colUName;
+    private TableColumn<UsersDTO,String> colUName;
     @FXML
-    private TableColumn ColEmail;
+    private TableColumn<UsersDTO,String> ColEmail;
     @FXML
     private JFXButton btnActivate;
     @FXML
@@ -46,11 +64,11 @@ public class UserSettingsFormController {
     @FXML
     private Pane paneUser;
     @FXML
-    private TableView tblHistory;
+    private TableView<String> tblHistory;
     @FXML
-    private TableColumn colTime;
+    private TableColumn<Object, Object> colTime;
     @FXML
-    private TableColumn ColDetails;
+    private TableColumn<Object, Object> ColDetails;
 
     @FXML
     private ResourceBundle resources;
@@ -94,6 +112,7 @@ public class UserSettingsFormController {
 
     public static UsersDTO usersDTO;
 
+    private UsersDTO changingUsersDTO;
     UsersBO usersBO= (UsersBO) BOFactory.getInstance().getBO(BOFactory.BOTypes.Users);
 
     @FXML
@@ -108,7 +127,25 @@ public class UserSettingsFormController {
         if (finalNumber.equals(randomNumber)){
             loadingPane.setVisible(false);
             TwoStepPane.setVisible(false);
+            //setting fields to editable
+            setActivation(false);
+            btnEdit.setDisable(true);
+            btnUpdate.setDisable(false);
+            loadData();
         }
+    }
+    void loadData(){
+        txtUserName.setText(usersDTO.getUserName());
+        txtName.setText(usersDTO.getName());
+        txtPasswordName.setText(usersDTO.getPassword());
+        txtEmail.setText(usersDTO.getEmail());
+    }
+
+    private void setActivation(boolean isDisable) {
+        txtName.setDisable(isDisable);
+        txtEmail.setDisable(isDisable);
+        txtPasswordName.setDisable(isDisable);
+        txtUserName.setDisable(isDisable);
     }
 
     @FXML
@@ -147,11 +184,13 @@ public class UserSettingsFormController {
     }
 
     @FXML
-    void initialize() {
+    void initialize() throws Exception{
+        setProperties();
         if (usersDTO.getType().equals("Admin")){
 
             paneUser.setVisible(false);
             paneAdmin.setVisible(true);
+            loadAll();
 
         }else if (usersDTO.getType().equals("user")){
 
@@ -160,6 +199,39 @@ public class UserSettingsFormController {
 
         }
         //sentEmail(makeCode(),usersDTO.getEmail());
+        getData();
+    }
+    private void getData(){
+        tblAllUsers.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+
+            btnDelete.setDisable(newValue == null);
+            btnActivate.setDisable(newValue == null);
+
+            if (newValue != null) {
+                changingUsersDTO=newValue;
+                if (newValue.isEnabled()){
+                    btnActivate.setDisable(true);
+                }
+                if (newValue.getId().equals("U-001")){
+                    btnDelete.setDisable(true);
+                }
+            }
+        });
+    }
+
+    public void setProperties(){
+        colName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        colUName.setCellValueFactory(new PropertyValueFactory<>("userName"));
+        ColEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
+
+        ColDetails.setCellValueFactory(new PropertyValueFactory<>("details"));
+        colTime.setCellValueFactory(new PropertyValueFactory<>("time"));
+    }
+
+    private void loadAll() throws Exception {
+        List<UsersDTO> usersDTOS = usersBO.loadAll();
+        ObservableList<UsersDTO> list= FXCollections.observableArrayList(usersDTOS);
+        tblAllUsers.setItems(list);
     }
 
     private void sentEmail(String code,String email){
@@ -212,20 +284,43 @@ public class UserSettingsFormController {
     void btnEditOnAction(ActionEvent actionEvent) {
         loadingPane.setVisible(true);
         TwoStepPane.setVisible(true);
+        sentEmail(makeCode(),usersDTO.getEmail());
     }
 
     @FXML
-    void btnUpdateOnAction(ActionEvent actionEvent) {
-        //usersBO.updateUsers();
+    void btnUpdateOnAction(ActionEvent actionEvent) throws Exception {
+        usersDTO.setName(txtName.getText());
+        usersDTO.setUserName(txtUserName.getText());
+        usersDTO.setEmail(txtEmail.getText());
+        usersDTO.setPassword(txtPasswordName.getText());
+
+        boolean isUpdated = usersBO.updateUsers(usersDTO);
+        if (isUpdated){
+            setActivation(true);
+            btnEdit.setDisable(false);
+            btnUpdate.setDisable(true);
+        }
     }
 
     @FXML
-    void btnActivateOnAction(ActionEvent actionEvent) {
-        //usersBO.deleteUsers();
+    void btnActivateOnAction(ActionEvent actionEvent) throws Exception {
+        changingUsersDTO.setEnabled(true);
+        boolean isActivated = usersBO.updateUsers(changingUsersDTO);
+        if (isActivated){
+            btnActivate.setDisable(true);
+            btnDelete.setDisable(true);
+        }
     }
 
     @FXML
-    void btnDeleteOnAction(ActionEvent actionEvent) {
-        //usersBO.deleteUsers();
+    void btnDeleteOnAction(ActionEvent actionEvent) throws Exception {
+        boolean isDeleted = usersBO.deleteUsers(changingUsersDTO);
+        if (isDeleted){
+            btnActivate.setDisable(true);
+            btnDelete.setDisable(true);
+
+            tblAllUsers.getItems().clear();
+            loadAll();
+        }
     }
 }

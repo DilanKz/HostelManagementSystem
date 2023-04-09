@@ -10,5 +10,7 @@ public interface UsersBO extends SuperBO {
     boolean saveUsers(UsersDTO usersDTO) throws Exception;
     boolean updateUsers(UsersDTO usersDTO) throws Exception;
     boolean deleteUsers(UsersDTO usersDTO) throws Exception;
+
+    boolean activateUser(String id) throws Exception;
     String generateNextUserID() throws Exception;
 }

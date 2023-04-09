@@ -17,6 +17,8 @@ public class UsersBOImpl implements UsersBO {
     UserDAO userDAO = (UserDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.Users);
     @Override
     public List<UsersDTO> loadAll() throws Exception {
+        session=SessionFactoryConfiguration.getInstance().getSession();
+        userDAO.setSession(session);
         List<Users> users = userDAO.loadAll();
         List<UsersDTO> usersDTOS=new ArrayList<>();
 
@@ -94,6 +96,21 @@ public class UsersBOImpl implements UsersBO {
             transaction.rollback();
         }
 
+        return false;
+    }
+
+    @Override
+    public boolean activateUser(String id) {
+        session=SessionFactoryConfiguration.getInstance().getSession();
+        Transaction transaction = session.beginTransaction();
+        try {
+            userDAO.setSession(session);
+            userDAO.activateUser(id);
+            transaction.commit();
+            session.close();
+        }catch (Exception e){
+            transaction.rollback();
+        }
         return false;
     }
 

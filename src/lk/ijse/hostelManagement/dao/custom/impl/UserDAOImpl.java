@@ -68,4 +68,13 @@ public class UserDAOImpl implements UserDAO {
 
         return users;
     }
+
+    @Override
+    public boolean activateUser(String id){
+        String hql="UPDATE Users u SET u.isEnabled=true WHERE u.id=:id";
+        Query query = session.createQuery(hql);
+        query.setParameter("id",id);
+        int count = query.executeUpdate();
+        return count >= 0;
+    }
 }
