@@ -12,9 +12,9 @@
       <AnchorPane fx:id="scenePane" layoutX="189.0" layoutY="217.0" prefHeight="816.0" prefWidth="1686.0" style="-fx-background-color: C4DDFF;" />
       <AnchorPane layoutY="133.0" prefHeight="84.0" prefWidth="1920.0" style="-fx-background-color: #057DCD;">
          <children>
-            <Label fx:id="lblFormName" layoutX="14.0" layoutY="14.0" prefHeight="32.0" prefWidth="195.0" textFill="WHITE">
+            <Label fx:id="lblFormName" layoutX="106.0" layoutY="13.0" prefHeight="32.0" prefWidth="390.0" textFill="WHITE">
                <font>
-                  <Font name="System Bold" size="18.0" />
+                  <Font name="System Bold" size="27.0" />
                </font>
             </Label>
             <Label fx:id="lblDate" layoutX="1708.0" layoutY="1.0" prefHeight="32.0" prefWidth="195.0" textFill="WHITE">
@@ -86,5 +86,10 @@
                </graphic>
             </JFXButton>
          </children></AnchorPane>
+      <Label fx:id="lblFormName1" layoutX="741.0" layoutY="34.0" prefHeight="76.0" prefWidth="438.0" text="D24 HOSTALS" textFill="#1446e8">
+         <font>
+            <Font name="Bell MT Bold" size="63.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

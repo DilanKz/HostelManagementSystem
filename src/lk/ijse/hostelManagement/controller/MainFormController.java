@@ -44,16 +44,19 @@ public class MainFormController {
 
     @FXML
     void btnReservationOnAction(ActionEvent event) throws IOException {
+        lblFormName.setText("Make A Reservation");
         Navigation.navigate(Navigation.Routes.Reservation,scenePane);
     }
 
     @FXML
     void btnRoomsOnAction(ActionEvent event) throws IOException {
+        lblFormName.setText("Manage Rooms");
         Navigation.navigate(Navigation.Routes.Rooms,scenePane);
     }
 
     @FXML
     void btnStudentOnAction(ActionEvent event) throws IOException {
+        lblFormName.setText("Manage Students");
         //Navigation.navigate(Navigation.Routes.Student,scenePane);
         scenePane.getChildren().add(FXMLLoader.load(Navigation.class.getResource("/lk/ijse/hostelManagement/view/StudentForm.fxml")));
 
