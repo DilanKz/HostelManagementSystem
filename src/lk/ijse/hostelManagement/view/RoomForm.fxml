@@ -33,7 +33,7 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </JFXButton>
-      <TableView fx:id="tblRooms" layoutX="789.0" layoutY="280.0" prefHeight="423.0" prefWidth="817.0">
+      <TableView fx:id="tblRooms" layoutX="789.0" layoutY="240.0" prefHeight="423.0" prefWidth="817.0">
         <columns>
           <TableColumn fx:id="colTypeID" prefWidth="119.0" text="Type ID" />
           <TableColumn fx:id="colType" prefWidth="316.0" text="Type" />
@@ -41,8 +41,8 @@
             <TableColumn fx:id="colQty" prefWidth="179.0" text="Qty" />
         </columns>
       </TableView>
-      <TextField fx:id="txtSearch" disable="true" layoutX="776.0" layoutY="198.0" prefHeight="46.0" prefWidth="318.0" style="-fx-background-color: ffffff; -fx-border-color: blue; -fx-border-radius: 10;" />
-      <Label layoutX="786.0" layoutY="187.0" style="-fx-background-color: ffffff;" text="Search" textFill="#057dcd">
+      <TextField fx:id="txtSearch" disable="true" layoutX="776.0" layoutY="198.0" prefHeight="46.0" prefWidth="318.0" style="-fx-background-color: ffffff; -fx-border-color: blue; -fx-border-radius: 10;" visible="false" />
+      <Label layoutX="786.0" layoutY="187.0" style="-fx-background-color: ffffff;" text="Search" textFill="#057dcd" visible="false">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>

@@ -180,6 +180,25 @@ public class StudentFormController {
         setProperties();
         loadAllStudents();
         getData();
+
+        //search students
+        txtSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+                    loadStudentsOnSearch(newValue);
+                });
+    }
+    void loadStudentsOnSearch(String searchText) {
+        ObservableList<StudentDTO> observableList=FXCollections.observableArrayList();
+        try {
+            List<StudentDTO> studentDTOS = studentBO.loadAll();
+            for (StudentDTO studentDTO : studentDTOS) {
+                if (studentDTO.getContactNo().contains(searchText)||studentDTO.getGender().contains(searchText) || studentDTO.getAddress().contains(searchText)|| studentDTO.getName().contains(searchText)) {
+                    observableList.add(studentDTO);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        tblStudents.setItems(observableList);
     }
 
     public void btnAddNewStudentOnAction(ActionEvent actionEvent) throws Exception {
@@ -244,7 +263,7 @@ public class StudentFormController {
     private boolean checkValidation(){
         String nameText = txtName.getText();
         String addressText = txtAddress.getText();
-        String dobText = txtDOB.getText();
+        String dobText = txtDOB.getText();//matches("\\d{4}-\\d{2}-\\d{2}")
         String contactText = txtContact.getText();
 
         if (!nameText.matches("[A-Za-z ]+")) {
@@ -255,7 +274,11 @@ public class StudentFormController {
             new Alert(Alert.AlertType.ERROR, "Address should be at least 3 characters long").show();
             txtAddress.requestFocus();
             return false;
-        } else if (!contactText.matches(".*(?:7|0|(?:\\\\\\\\+94))[0-9]{9,10}")) {
+        } else if (!dobText.matches("\\d{4}-\\d{2}-\\d{2}")) {
+            new Alert(Alert.AlertType.ERROR, "Invalid Contact").show();
+            txtDOB.requestFocus();
+            return false;
+        }else if (!contactText.matches(".*(?:7|0|(?:\\\\+94))[0-9]{9,10}")) {
             new Alert(Alert.AlertType.ERROR, "Invalid Contact").show();
             txtContact.requestFocus();
             return false;
