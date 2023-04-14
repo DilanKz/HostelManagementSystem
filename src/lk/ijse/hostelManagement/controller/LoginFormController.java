@@ -195,6 +195,7 @@ public class LoginFormController {
           txtShowPass.setVisible(false);
           txtInPass.setVisible(true);
       }
+      txtInPass.setText(txtShowPass.getText());
     }
 
 
@@ -264,6 +265,8 @@ public class LoginFormController {
             txtShowNewPass.setVisible(false);
             txtPass.setVisible(true);
         }
+
+        txtPass.setText(txtShowNewPass.getText());
     }
 
     public void txtPassOnActon(KeyEvent actionEvent) {

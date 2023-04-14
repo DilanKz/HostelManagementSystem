@@ -2,6 +2,7 @@ package lk.ijse.hostelManagement.bo.custom.impl;
 
 import lk.ijse.hostelManagement.bo.custom.StudentBO;
 import lk.ijse.hostelManagement.dao.DAOFactory;
+import lk.ijse.hostelManagement.dao.custom.ReservationDAO;
 import lk.ijse.hostelManagement.dao.custom.StudentDAO;
 import lk.ijse.hostelManagement.dto.StudentDTO;
 import lk.ijse.hostelManagement.entity.Student;
@@ -15,6 +16,7 @@ import java.util.List;
 public class StudentBOImpl implements StudentBO {
     private Session session;
     StudentDAO studentDAO = (StudentDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.Student);
+    ReservationDAO reservationDAO= (ReservationDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.Reservation);
     @Override
     public List<StudentDTO> loadAll() throws Exception {
         session= SessionFactoryConfiguration.getInstance().getSession();
@@ -123,4 +125,16 @@ public class StudentBOImpl implements StudentBO {
         studentDAO.setSession(session);
         return studentDAO.generateID();
     }
+
+    @Override
+    public boolean getCount(String studentID){
+        session=SessionFactoryConfiguration.getInstance().getSession();
+        try {
+            reservationDAO.setSession(session);
+            return reservationDAO.getStudentCount(studentID);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

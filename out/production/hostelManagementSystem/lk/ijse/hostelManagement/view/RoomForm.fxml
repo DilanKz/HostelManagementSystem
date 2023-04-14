@@ -18,7 +18,7 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </JFXButton>
-      <JFXButton fx:id="btnClear" disable="true" layoutX="346.0" layoutY="591.0" onAction="#btnClearOnAction" prefHeight="39.0" prefWidth="80.0" style="-fx-background-color: orange;" text="Clear" textFill="WHITE">
+      <JFXButton fx:id="btnClear" disable="true" layoutX="376.0" layoutY="591.0" onAction="#btnClearOnAction" prefHeight="39.0" prefWidth="80.0" style="-fx-background-color: orange;" text="Clear" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
@@ -28,7 +28,7 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </JFXButton>
-      <JFXButton fx:id="btnDelete" disable="true" layoutX="361.0" layoutY="592.0" onAction="#btnDeleteOnAction" prefHeight="39.0" prefWidth="88.0" style="-fx-background-color: red;" text="Delete" textFill="WHITE" visible="false">
+      <JFXButton fx:id="btnDelete" disable="true" layoutX="271.0" layoutY="592.0" onAction="#btnDeleteOnAction" prefHeight="39.0" prefWidth="88.0" style="-fx-background-color: red;" text="Delete" textFill="WHITE" visible="false">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>

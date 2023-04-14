@@ -2,10 +2,10 @@ package lk.ijse.hostelManagement.bo.custom.impl;
 
 import lk.ijse.hostelManagement.bo.custom.RoomsBO;
 import lk.ijse.hostelManagement.dao.DAOFactory;
+import lk.ijse.hostelManagement.dao.custom.ReservationDAO;
 import lk.ijse.hostelManagement.dao.custom.RoomsDAO;
 import lk.ijse.hostelManagement.dto.RoomDTO;
 import lk.ijse.hostelManagement.entity.Room;
-import lk.ijse.hostelManagement.entity.Users;
 import lk.ijse.hostelManagement.util.SessionFactoryConfiguration;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -16,6 +16,7 @@ import java.util.List;
 public class RoomsBOImpl implements RoomsBO {
     private Session session;
     RoomsDAO roomsDAO = (RoomsDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.Rooms);
+    ReservationDAO reservationDAO= (ReservationDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.Reservation);
     @Override
     public List<RoomDTO> loadAll() throws Exception {
         session= SessionFactoryConfiguration.getInstance().getSession();
@@ -116,5 +117,16 @@ public class RoomsBOImpl implements RoomsBO {
         session= SessionFactoryConfiguration.getInstance().getSession();
         roomsDAO.setSession(session);
         return roomsDAO.generateID();
+    }
+
+    @Override
+    public boolean getCount(String roomID){
+        session=SessionFactoryConfiguration.getInstance().getSession();
+        try {
+            reservationDAO.setSession(session);
+            return reservationDAO.getRoomCount(roomID);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

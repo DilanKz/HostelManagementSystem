@@ -12,11 +12,11 @@ public class Reservation {
 
     @Column(name = "date")
     private Date date;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "student_id",nullable = false)
     private Student student;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "room_type_id",nullable = false)
     private Room room;
 

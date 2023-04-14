@@ -313,6 +313,13 @@ public class StudentFormController {
             btnAdd.setDisable(newValue == null);
 
             if (newValue != null) {
+
+                if (studentBO.getCount(newValue.getId())){
+                    btnDelete.setVisible(true);
+                }else {
+                    btnDelete.setVisible(false);
+                }
+
                 lblStudentID.setText(newValue.getId());
                 txtName.setText(newValue.getName());
                 txtAddress.setText(newValue.getAddress());

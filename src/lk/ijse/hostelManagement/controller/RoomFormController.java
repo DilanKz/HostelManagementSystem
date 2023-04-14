@@ -232,6 +232,13 @@ public class RoomFormController {
 
             if (newValue != null) {
 
+                boolean isHave = roomsBO.getCount(newValue.getId());
+                if (isHave){
+                    btnDelete.setVisible(true);
+                }else {
+                    btnDelete.setVisible(false);
+                }
+
                 lblStudentID.setText(newValue.getId());
                 txtType.setText(newValue.getType());
                 txtKeyMoney.setText(newValue.getKeyMoney());

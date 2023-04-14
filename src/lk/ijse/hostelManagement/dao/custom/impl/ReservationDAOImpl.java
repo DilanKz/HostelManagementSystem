@@ -74,4 +74,22 @@ public class ReservationDAOImpl implements ReservationDAO {
         int count = query.executeUpdate();
         return count >= 0;
     }
+
+    @Override
+    public boolean getStudentCount(String studentID) {
+        String hql="select count(*) from Reservation where student.id=:sid";
+        Query query = session.createQuery(hql);
+        query.setParameter("sid",studentID);
+        long count = (long) query.uniqueResult();
+        return count == 0;
+    }
+
+    @Override
+    public boolean getRoomCount(String studentID) {
+        String hql="select count(*) from Reservation where room.id=:rid";
+        Query query = session.createQuery(hql);
+        query.setParameter("rid",studentID);
+        long count = (long) query.uniqueResult();
+        return count == 0;
+    }
 }
