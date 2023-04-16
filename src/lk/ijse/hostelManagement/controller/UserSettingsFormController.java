@@ -3,10 +3,7 @@ package lk.ijse.hostelManagement.controller;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
-import java.util.List;
-import java.util.Properties;
-import java.util.Random;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,8 +18,12 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.SVGPath;
 import lk.ijse.hostelManagement.bo.BOFactory;
 import lk.ijse.hostelManagement.bo.custom.UsersBO;
+import lk.ijse.hostelManagement.dto.LogsDTO;
 import lk.ijse.hostelManagement.dto.UsersDTO;
 
 import javax.mail.*;
@@ -31,6 +32,9 @@ import javax.mail.internet.MimeMessage;
 
 public class UserSettingsFormController {
 
+    public SVGPath svgWeak;
+    public SVGPath svgGood;
+    public SVGPath svgStrong;
     @FXML
     private TextField txtName;
 
@@ -64,11 +68,11 @@ public class UserSettingsFormController {
     @FXML
     private Pane paneUser;
     @FXML
-    private TableView<String> tblHistory;
+    private TableView<LogsDTO> tblHistory;
     @FXML
-    private TableColumn<Object, Object> colTime;
+    private TableColumn<Object, String> colTime;
     @FXML
-    private TableColumn<Object, Object> ColDetails;
+    private TableColumn<Object, String> ColDetails;
 
     @FXML
     private ResourceBundle resources;
@@ -127,11 +131,13 @@ public class UserSettingsFormController {
         if (finalNumber.equals(randomNumber)){
             loadingPane.setVisible(false);
             TwoStepPane.setVisible(false);
+
             //setting fields to editable
             setActivation(false);
             btnEdit.setDisable(true);
             btnUpdate.setDisable(false);
             loadData();
+            //passwordValidate(usersDTO.getPassword());
         }
     }
     void loadData(){
@@ -185,6 +191,10 @@ public class UserSettingsFormController {
 
     @FXML
     void initialize() throws Exception{
+        txtPasswordName.textProperty().addListener((observable, oldValue, newValue) -> {
+            passwordValidate(newValue);
+        });
+        //passwordValidate(txtPasswordName.getText());
         setProperties();
         if (usersDTO.getType().equals("Admin")){
 
@@ -200,6 +210,7 @@ public class UserSettingsFormController {
         }
         //sentEmail(makeCode(),usersDTO.getEmail());
         getData();
+        loadLogs();
     }
     private void getData(){
         tblAllUsers.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -224,7 +235,7 @@ public class UserSettingsFormController {
         colUName.setCellValueFactory(new PropertyValueFactory<>("userName"));
         ColEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
 
-        ColDetails.setCellValueFactory(new PropertyValueFactory<>("details"));
+        ColDetails.setCellValueFactory(new PropertyValueFactory<>("data"));
         colTime.setCellValueFactory(new PropertyValueFactory<>("time"));
     }
 
@@ -232,6 +243,48 @@ public class UserSettingsFormController {
         List<UsersDTO> usersDTOS = usersBO.loadAll();
         ObservableList<UsersDTO> list= FXCollections.observableArrayList(usersDTOS);
         tblAllUsers.setItems(list);
+    }
+
+    public static List<LogsDTO> logsDTOList=new ArrayList<>();
+    private void loadLogs(){
+        System.out.println(logsDTOList);
+        tblHistory.getItems().clear();
+        ObservableList<LogsDTO> list= FXCollections.observableArrayList(logsDTOList);
+        tblHistory.setItems(list);
+
+        /*tblHistory.getItems().add(0, String.valueOf(LocalTime.now()));
+        tblHistory.getItems().add(1,detail);*/
+
+    }
+
+    @FXML
+    void txtChnagePassOnKey(KeyEvent keyEvent) {
+        //passwordValidate(txtPasswordName.getText());
+    }
+
+    private void passwordValidate(String password){
+        /*String pass=password;
+        //txtPasswordName.getText();
+        if (pass !=null){
+            if (pass.matches("[A-Za-z ]+")){
+                svgWeak.setFill(Color.RED);
+                if (pass.matches("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$")){
+                    svgWeak.setFill(Color.YELLOW);
+                    svgGood.setFill(Color.YELLOW);
+                    if (pass.matches("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$")){
+                        svgWeak.setFill(Color.GREEN);
+                        svgGood.setFill(Color.GREEN);
+                        svgStrong.setFill(Color.GREEN);
+
+                    }
+
+                }
+            }
+        }else if (pass==null || pass.equals(" ")||pass.equals("")){
+            svgWeak.setFill(Color.WHITE);
+            svgGood.setFill(Color.WHITE);
+            svgStrong.setFill(Color.WHITE);
+        }*/
     }
 
     private void sentEmail(String code,String email){
@@ -323,4 +376,6 @@ public class UserSettingsFormController {
             loadAll();
         }
     }
+
+
 }

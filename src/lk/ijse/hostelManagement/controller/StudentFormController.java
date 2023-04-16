@@ -1,6 +1,8 @@
 package lk.ijse.hostelManagement.controller;
 
 import java.net.URL;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -10,10 +12,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Pane;
 import lk.ijse.hostelManagement.bo.BOFactory;
 import lk.ijse.hostelManagement.bo.custom.StudentBO;
+import lk.ijse.hostelManagement.dto.LogsDTO;
 import lk.ijse.hostelManagement.dto.StudentDTO;
 
 public class StudentFormController {
@@ -94,6 +100,9 @@ public class StudentFormController {
             );
 
             if (isDeleted){
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
+                UserSettingsFormController.logsDTOList.add(new LogsDTO(String.valueOf(LocalTime.now().format(dtf)),"Deleted a student id "+lblStudentID.getText()));
+
                 new Alert(Alert.AlertType.CONFIRMATION, "Room Deleted").show();
                 setFieldsActivation(true,false);
                 clearFields();
@@ -131,6 +140,10 @@ public class StudentFormController {
             );
 
             if (isSaved){
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
+                UserSettingsFormController.logsDTOList.add(new LogsDTO(String.valueOf(LocalTime.now().format(dtf)),"Added a student id "+lblStudentID.getText()));
+
+
                 new Alert(Alert.AlertType.CONFIRMATION, "Student saved").show();
                 setFieldsActivation(true,false);
                 clearFields();
@@ -161,6 +174,10 @@ public class StudentFormController {
             );
 
             if (isUpdated){
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
+                UserSettingsFormController.logsDTOList.add(new LogsDTO(String.valueOf(LocalTime.now().format(dtf)),"Updated a student id "+lblStudentID.getText()));
+
+
                 new Alert(Alert.AlertType.CONFIRMATION, "Room updated").show();
                 setFieldsActivation(true,false);
                 clearFields();
@@ -168,6 +185,7 @@ public class StudentFormController {
                 loadAllStudents();
                 btnCancel.setDisable(true);
                 btnAddStudent.setDisable(false);
+
             }else{
                 new Alert(Alert.AlertType.ERROR, "Error").show();
             }
@@ -275,7 +293,7 @@ public class StudentFormController {
             txtAddress.requestFocus();
             return false;
         } else if (!dobText.matches("\\d{4}-\\d{2}-\\d{2}")) {
-            new Alert(Alert.AlertType.ERROR, "Invalid Contact").show();
+            new Alert(Alert.AlertType.ERROR, "Invalid DOB").show();
             txtDOB.requestFocus();
             return false;
         }else if (!contactText.matches(".*(?:7|0|(?:\\\\+94))[0-9]{9,10}")) {
