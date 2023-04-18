@@ -435,6 +435,8 @@ public class LoginFormController {
     }
 
     private void sentEmail(String code,String email){
+
+        //Insert your credentials
         final String username = "yourmail@gmail.com";
         final String password = "password";
 
