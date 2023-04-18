@@ -288,8 +288,8 @@ public class UserSettingsFormController {
     }
 
     private void sentEmail(String code,String email){
-        final String username = "falonh45@gmail.com";
-        final String password = "tarj qxjg drtb kcmw";
+        final String username = "yourmail@gmail.com";
+        final String password = "password";
 
         Properties props = new Properties();
         props.put("mail.smtp.starttls.enable", "true");
@@ -307,7 +307,7 @@ public class UserSettingsFormController {
         try {
 
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("falonh45@gmail.com"));
+            message.setFrom(new InternetAddress(username));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(email));
             message.setSubject("Verification code");
