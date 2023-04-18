@@ -9,17 +9,7 @@ public class SendMail {
 
     private static SendMail mail;
 
-    private SendMail(){}
-
-    public static SendMail getInstance(){
-        if (mail==null){
-            mail=new SendMail();
-        }
-        return mail;
-    }
-
-    private void sendAMail(String email,String code){
-        //Insert your credentials
+    private SendMail(String email,String code){
         final String username = "falonh45@gmail.com";
         final String password = "tarj qxjg drtb kcmw";
 
@@ -52,5 +42,17 @@ public class SendMail {
         } catch (MessagingException e) {
             e.printStackTrace();
         }
+    }
+
+    public static SendMail getInstance(String email,String code){
+        if (mail==null){
+            mail=new SendMail(email,code);
+        }
+        return mail;
+    }
+
+    private void sendAMail(String email,String code){
+        //Insert your credentials
+
     }
 }
