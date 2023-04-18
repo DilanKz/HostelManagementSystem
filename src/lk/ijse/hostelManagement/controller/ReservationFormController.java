@@ -125,7 +125,7 @@ public class ReservationFormController {
                 btnCancel.setDisable(true);
                 btnNewRes.setDisable(false);
 
-                //clearFields();
+                clearFields();
             }else{
                 new Alert(Alert.AlertType.ERROR, "Error").show();
             }
@@ -137,6 +137,7 @@ public class ReservationFormController {
 
                 boolean isUpdated = reservationBO.changePaidStatus(id, status);
                 if (isUpdated){
+                    clearFields();
                     tblResDetails.getItems().clear();
                     tblStudentDetails.getItems().clear();
 
@@ -228,21 +229,25 @@ public class ReservationFormController {
         return reservationBO.getRoom(roomID);
     }
     public void cmbStudentOnAction(ActionEvent actionEvent) throws Exception {
-        StudentDTO studentData= getStudentData();
-        lblStudentName.setText(studentData.getName());
+        if (cmbGender.getSelectionModel().getSelectedItem()!=null){
+            StudentDTO studentData= getStudentData();
+            lblStudentName.setText(studentData.getName());
+        }
     }
 
     public void cmbRoomOnAction(ActionEvent actionEvent) throws Exception {
-        RoomDTO roomData = getRoomData();
-        lblRoomQty.setText(String.valueOf(roomData.getQty()));
+       if (cmbGender1.getSelectionModel().getSelectedItem()!=null){
+           RoomDTO roomData = getRoomData();
+           lblRoomQty.setText(String.valueOf(roomData.getQty()));
+       }
     }
 
     private void clearFields(){
-        /*lblStudentName.setText(" ");
+        lblStudentName.setText(" ");
         lblResId.setText(" ");
         lblRoomQty.setText(" ");
         cmbGender.getSelectionModel().clearSelection();
-        cmbGender1.getSelectionModel().clearSelection();*/
+        cmbGender1.getSelectionModel().clearSelection();
     }
 
     private ReservationDTO getData() throws Exception {
@@ -305,6 +310,10 @@ public class ReservationFormController {
             if (newValue != null) {
                 cbxStatus.setDisable(false);
                 id= newValue.getResID();
+                lblStudentName.setText(newValue.getName());
+                cmbGender.getSelectionModel().select(newValue.getStudentID());
+                cmbGender1.getSelectionModel().select(newValue.getRoomID());
+                lblResId.setText(newValue.getResID());
             }
         });
     }
