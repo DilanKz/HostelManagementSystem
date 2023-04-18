@@ -10,8 +10,8 @@ public class SendMail {
     private static SendMail mail;
 
     private SendMail(String email,String code){
-        final String username = "falonh45@gmail.com";
-        final String password = "tarj qxjg drtb kcmw";
+        final String username = "yourMail45@gmail.com";
+        final String password = "password";
 
         Properties props = new Properties();
         props.put("mail.smtp.starttls.enable", "true");
