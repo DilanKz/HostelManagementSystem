@@ -80,7 +80,7 @@ public class StudentFormController {
 
 
     @FXML
-    void btnClearOnAction(ActionEvent event) {
+    void btnClearOnAction(ActionEvent event) throws Exception {
         clearFields();
     }
 
@@ -220,6 +220,7 @@ public class StudentFormController {
     }
 
     public void btnAddNewStudentOnAction(ActionEvent actionEvent) throws Exception {
+        loadAllStudents();
         btnAdd.setText("Save");
         btnAddStudent.setDisable(true);
         btnDelete.setDisable(true);
@@ -239,6 +240,7 @@ public class StudentFormController {
     }
 
     private void loadAllStudents() throws Exception {
+        tblStudents.getItems().clear();
         List<StudentDTO> studentDTOS = studentBO.loadAll();
         ObservableList<StudentDTO> observableList= FXCollections.observableList(studentDTOS);
         tblStudents.setItems(observableList);
@@ -306,7 +308,8 @@ public class StudentFormController {
 
     }
 
-    private void clearFields(){
+    private void clearFields() throws Exception {
+        loadAllStudents();
         txtName.clear();
         txtContact.clear();
         txtAddress.clear();
@@ -315,7 +318,7 @@ public class StudentFormController {
         cmbGender.getSelectionModel().clearSelection();
     }
 
-    public void btnCancelOnAction(ActionEvent actionEvent) {
+    public void btnCancelOnAction(ActionEvent actionEvent) throws Exception {
         btnCancel.setDisable(true);
         btnAddStudent.setDisable(false);
         clearFields();

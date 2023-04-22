@@ -65,6 +65,7 @@ public class RoomFormController {
 
     @FXML
     void btnAddNewStudentOnAction(ActionEvent event) throws Exception {
+        loadAllRooms();
         btnAdd.setText("Save");
         btnAddRoom.setDisable(true);
         btnDelete.setDisable(true);
@@ -75,7 +76,8 @@ public class RoomFormController {
     }
 
     @FXML
-    void btnClearOnAction(ActionEvent event) {
+    void btnClearOnAction(ActionEvent event) throws Exception {
+        loadAllRooms();
         clearFields();
     }
 
@@ -183,6 +185,7 @@ public class RoomFormController {
     }
 
     void loadAllRooms() throws Exception{
+        tblRooms.getItems().clear();
         List<RoomDTO> roomDTOS = roomsBO.loadAll();
         ObservableList<RoomDTO> observableList= FXCollections.observableList(roomDTOS);
         tblRooms.setItems(observableList);
@@ -225,7 +228,7 @@ public class RoomFormController {
     void getData(){
         tblRooms.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             setFieldsActivation(false,true);
-            btnCancel.setDisable(true);
+            btnCancel.setDisable(false);
 
             btnAdd.setText(newValue != null ? "Update" : "Save");
             btnAdd.setDisable(newValue == null);
@@ -249,7 +252,8 @@ public class RoomFormController {
     }
 
     @FXML
-    private void btnCancelOnAction(ActionEvent actionEvent) {
+    private void btnCancelOnAction(ActionEvent actionEvent) throws Exception {
+        loadAllRooms();
         btnCancel.setDisable(true);
         btnAddRoom.setDisable(false);
         clearFields();
