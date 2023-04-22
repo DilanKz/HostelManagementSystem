@@ -106,6 +106,7 @@ public class ReservationFormController {
 
     @FXML
     void btnClearOnAction(ActionEvent event) {
+        clearFields();
     }
 
     @FXML
@@ -207,8 +208,6 @@ public class ReservationFormController {
     }
 
     private void setIds() throws Exception{
-        /*cmbGender.getItems().clear();
-        cmbGender1.getItems().clear();*/
 
         List<String> studentIds = reservationBO.getStudentIds();
         ObservableList<String> studentList= FXCollections.observableList(studentIds);
